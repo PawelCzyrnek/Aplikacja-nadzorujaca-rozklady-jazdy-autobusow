@@ -1,1 +1,1 @@
-# Zarzadzanie-liniami-lotniczymi
+# Aplikacja nadzorująca rozkłady jazdy autobusów
