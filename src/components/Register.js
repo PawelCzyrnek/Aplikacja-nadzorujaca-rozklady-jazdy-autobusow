@@ -1,7 +1,7 @@
 import './../App.css';
 import profile from "./../image/a.png";
 import React from 'react';
-function rejestracja() {
+function register() {
   return (
     <div className="main">
      <div className="sub-main">
@@ -42,4 +42,4 @@ function rejestracja() {
   );
 }
 
-export default rejestracja;
+export default register;
