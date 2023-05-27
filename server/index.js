@@ -17,7 +17,7 @@ app.use(cookieParser());
 export const db = mysql.createConnection({
   host: "localhost",
   user: "root",
-  password: "",
+  password: "haslo",
   database: "anrja",
 });
 
@@ -161,7 +161,23 @@ app.post("/stops", (req, res) => {
   });
 });
 
+app.post("/tracks", (req, res) => {
+  const q = "INSERT INTO trasy(start, cel, godz_startu, godz_konca, pojazdy_id, pracownicy_id, dni_kursowania) VALUES (?)";
+  const values = [
+    req.body.start,
+    req.body.cel,
+    req.body.godz_startu,
+    req.body.godz_konca,
+    req.body.pojazdy_id,
+    req.body.pracownicy_id,
+    req.body.dni_kursowania,
+  ];
 
+  db.query(q, [values], (err, data) => {
+    if (err) return res.send(err);
+    return res.json(data);
+  });
+});
 
 app.get("/tracks", (req, res) => {
   const q = "SELECT * FROM trasy";
@@ -184,9 +200,20 @@ app.delete("/tracks/:id", (req, res) => {
   });
 });
 
+app.put("/tracks/:id", (req, res) => {
+    const trackId = req.params.id;
+    const q = "UPDATE trasy SET 'start' = ?, 'cel'= ?, WHERE id = ? ";
+    const values=[
+      req.body.start,
+      req.body.cel,
 
+    ]
 
-
+  db.query(q, [...values,trackId], (err, data) => {
+    if (err) return res.send(err);
+    return res.json("User has been updated successfully.");
+  });
+});
 
 app.put("/users/:id", (req, res) => {
   const userId = req.params.id;
@@ -203,91 +230,6 @@ app.put("/users/:id", (req, res) => {
   ];
 
   db.query(q, [...values,userId], (err, data) => {
-    if (err) return res.send(err);
-    return res.json(data);
-  });
-});
-
-
-app.put("/stops/:id", (req, res) => {
-  const stopId = req.params.id;
-  const q = "UPDATE przystanki SET  nazwa=?,  miasto_id= ? WHERE id = ?";
-
-  const values = [
-    req.body.nazwa,
-    req.body.miasto_id,
-    
-  ];
-
-  db.query(q, [...values,stopId], (err, data) => {
-    if (err) return res.send(err);
-    return res.json(data);
-  });
-});
-
-
-
-
-
-
-
-app.listen(8800, () => {
-  console.log("Connected to backend.");
-});
-
-
-app.post("/tracks", (req, res) => {
-  const q = "INSERT INTO trasy(start, cel, godz_startu, godz_konca, pojazdy_id, pracownicy_id, dni_kursowania) VALUES (?)";
-  const values = [
-    req.body.start,
-    req.body.cel,
-    req.body.godz_startu,
-    req.body.godz_konca,
-    req.body.pojazdy_id,
-    req.body.pracownicy_id,
-    req.body.dni_kursowania,
-  ];
-
-  db.query(q, [values], (err, data) => {
-    if (err) return res.send(err);
-    return res.json(data);
-  });
-});
-
-app.put("/vehicles/:id", (req, res) => {
-  const vehicleId = req.params.id;
-  const q = "UPDATE pojazdy SET id_no= ?, sits_no= ? WHERE id = ?";
-
-  const values = [
-    req.body.id_no,
-    req.body.sits_no,
-    
-  ];
-
-  db.query(q, [...values,vehicleId], (err, data) => {
-    if (err) return res.send(err);
-    return res.json(data);
-  });
-});
-
-
-
-app.put("/tracks/:id", (req, res) => {
-  const trackId = req.params.id;
-  const q = "UPDATE trasy SET start= ?, cel= ?, godz_startu= ?, godz_konca= ?, pojazdy_id= ?, pracownicy_id= ?, dni_kursowania= ? WHERE id = ?";
-
-  const values = [
-    req.body.start,
-    req.body.cel,
-    req.body.godz_startu,
-    req.body.godz_konca,
-    req.body.pojazdy_id,
-    req.body.pracownicy_id,
-    req.body.dni_kursowania,
-    
-  ];
-
-  db.query(q, [...values,trackId], (err, data) => {
     if (err) return res.send(err);
     return res.json(data);
   });
@@ -350,30 +292,8 @@ app.put("/profil/:id", (req, res) => {
   });
 });
 
-app.post("/tickets/:id/:userId", (req, res) => {
-  const q = "INSERT INTO bilet_zakupiony(`bilet_o_id`, `user_id`) VALUES (?)";
-  console.log(req.params)
-  const values = [
-    req.params.id,
-    req.params.userId,
-  ];
-
-  db.query(q, [values], (err, data) => {
-    if (err) return res.send(err);
-    return res.json(data);
-  });
-});
-
-app.get("/tracks/:id", (req, res) => {
-  const q = "SELECT * FROM trasy WHERE id = ?";
-  console.log(req.params)
-  db.query(q, (err, data) => {
-    if (err) {
-      console.log(err);
-      return res.json(err);
-    }
-    return res.json(data);
-  });
+app.listen(8800, () => {
+  console.log("Connected to backend.");
 });
 
 
