@@ -47,8 +47,9 @@ app.get("/vehicles", (req, res) => {
   });
 });
 
+//INNER JOIN
 app.get("/stops", (req, res) => {
-  const q = "SELECT * FROM przystanki";
+  const q = "SELECT * FROM przystanki p INNER JOIN miasto m ON m.id = p.miasto_id";
   db.query(q, (err, data) => {
     if (err) {
       console.log(err);
@@ -116,16 +117,6 @@ app.delete("/users/:id", (req, res) => {
     return res.json(data);
   });
 });
-
-/*app.delete("/users/:id", (req, res) => {
-  const userId = req.params.id;
-  const q = " DELETE FROM users WHERE id = ? ";
-
-  db.query(q, [userId], (err, data) => {
-    if (err) return res.send(err);
-    return res.json("Usunieto uzytkownika!");
-  });
-});*/
 
 app.delete("/vehicles/:id", (req, res) => {
   const vehicleId = req.params.id;

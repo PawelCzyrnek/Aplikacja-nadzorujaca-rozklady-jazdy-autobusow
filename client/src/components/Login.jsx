@@ -33,7 +33,7 @@ import { AuthContext } from '../context/authContext';
     };
 
   return (
-    <div className="main">
+    <div className="login">
     <center>
      <div className="sub-main">
        <div>
