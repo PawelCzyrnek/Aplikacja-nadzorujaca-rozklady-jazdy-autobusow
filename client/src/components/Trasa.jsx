@@ -2,19 +2,25 @@ import React, { useContext } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { AuthContext } from '../context/authContext';
-import TopMenu from "../menu/Topmenu";
 import NormalMenu from "../menu/Normalmenu";
+import TopMenu from "../menu/Topmenu";
 
-const Tracks = () => {
+const Trasa = () => {
   const [tracks, setTracks] = useState([]);
+
+  const navigate = useNavigate()
+  const location = useLocation()
+  const trackId = location.pathname.split("/")[2]
+  console.log(trackId)
 
   useEffect(() => {
     const fetchAllTracks = async () => {
       try {
-        const res = await axios.get("http://localhost:8800/tracks");
+        const res = await axios.get("http://localhost:8800/tracks/"+trackId);
         setTracks(res.data);
+        console.log(res.data)
       } catch (err) {
         console.log(err);
       }
@@ -22,21 +28,27 @@ const Tracks = () => {
     fetchAllTracks();
   }, []);
 
-  console.log(tracks);
-
-  const handleDelete = async (id) => {
-    try {
-      await axios.delete("http://localhost:8800/tracks/"+id);
-      window.location.reload()
-    } catch(err) {
-      console.log(err);
-    }
-  };
-
   const { currentUser } = useContext(AuthContext);
-  const userId = currentUser?.id;
+  const userId = currentUser.id;
 
   const [error,setError] = useState(false)
+
+  const [track, setTrackss] = useState({
+    id: "",
+    user_id: "",
+  });
+
+  const handleClick = async (e) => {
+    e.preventDefault();
+    try {
+      console.log(e)
+      await axios.post("http://localhost:8800/tickets/"+trackId+'/'+userId);
+      navigate("/");
+    } catch (err) {
+      console.log(err);
+      setError(true)
+    }
+  };
 
   if( currentUser?.rola_id === 'admin'){
   return (
@@ -44,7 +56,6 @@ const Tracks = () => {
       <center>    
       <TopMenu />
           <div className="formusun">
-        {tracks.map((track) => (
           <div key={track.id} className="track">
             <h2>Start: {track.start}</h2>
             <h2>Cel: {track.cel}</h2>
@@ -54,38 +65,27 @@ const Tracks = () => {
             <h2>id pracownika: {track.pracownicy_id}</h2>
             <h2>Dni kursowania: {track.dni_kursowania}</h2>
 
-            <button className="delete" onClick={() => handleDelete(track.id)}>Usuń</button>
-            <button className="update">
-            <Link
-                to={`/EdytowanieTras/${track.id}`}
-                style={{ color: "inherit", textDecoration: "none" }}
-              >
-                Edytuj
-              </Link>
+            <button onClick={handleClick}>Kup bilet
             </button>
-            <button>
-            <Link
-                to={`/Trasa/${track.id}`}
-                style={{ color: "inherit", textDecoration: "none" }}
-              >
-                Trasa
-              </Link>
+            <button onClick={handleClick}>Kup bilet miesięczny
             </button>
+
+      {error && "Something went wrong!"}
+
           </div>
-        ))}
         </div>
       </center>
     </div>
   );  
 }else{
-  return (
-    <div className="main">
-      <center>
-      <NormalMenu />
-        </center>
-    </div>
-  );
-}
+    return (
+      <div className="main">
+        <center>
+        <NormalMenu />
+          </center>
+      </div>
+    );
+  }
 };
 
-export default Tracks;
+export default Trasa;

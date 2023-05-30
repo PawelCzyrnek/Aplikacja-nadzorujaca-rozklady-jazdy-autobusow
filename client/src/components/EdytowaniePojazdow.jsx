@@ -3,31 +3,31 @@ import React, { useContext } from "react";
 import { AuthContext } from '../context/authContext';
 import { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import NormalMenu from "../menu/Normalmenu";
 import TopMenu from "../menu/Topmenu";
+import NormalMenu from "../menu/Normalmenu";
 
-const Stop = () => {
-  const [stop, setStop] = useState({
-    nazwa: "",
-    miasto_id: "",
+const Vehicle = () => {
+  const [vehicle, setVehicle] = useState({
+   id_no:"",
+   sits_no:"",
   });
   const [error,setError] = useState(false)
 
   const navigate = useNavigate()
   const location = useLocation()
 
-  const stopId = location.pathname.split("/")[2]
+  const vehicleId = location.pathname.split("/")[2]
 
   console.log(location.pathname.split("/")[2])
 
   const handleChange = (e) => {
-    setStop((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    setVehicle((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
   const handleClick = async (e) => {
     e.preventDefault();
     try {
-      await axios.put("http://localhost:8800/stops/"+ stopId, stop);
+      await axios.put("http://localhost:8800/vehicles/"+ vehicleId, vehicle);
       navigate("/");
     } catch (err) {
       console.log(err);
@@ -40,19 +40,19 @@ const Stop = () => {
   return (
     <div className="main">
       <center>    
-      <TopMenu/>
+      <TopMenu />
     <div className="form">
-      <h1>Edytowanie przystankow</h1>
+      <h1>Edytowanie pojazdow</h1>
       <input
         type="text"
-        placeholder="nazwa przystanku"
-        name="nazwa"
+        placeholder="numer rejestracyjny"
+        name="id_no"
         onChange={handleChange}
       />
       <input
         type="number"
-        placeholder="id_miasta"
-        name="miasto_id"
+        placeholder="ilosc miejsc"
+        name="sits_no"
         onChange={handleChange}
       />
       
@@ -75,4 +75,4 @@ const Stop = () => {
 }
 };
 
-export default Stop;
+export default Vehicle;

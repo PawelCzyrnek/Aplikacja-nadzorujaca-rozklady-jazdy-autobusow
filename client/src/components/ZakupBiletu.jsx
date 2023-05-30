@@ -4,11 +4,10 @@ import { useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { AuthContext } from '../context/authContext';
-import TopMenu from "../menu/Topmenu";
-import NormalMenu from "../menu/Normalmenu";
 
 const Tracks = () => {
   const [tracks, setTracks] = useState([]);
+
 
   useEffect(() => {
     const fetchAllTracks = async () => {
@@ -21,17 +20,6 @@ const Tracks = () => {
     };
     fetchAllTracks();
   }, []);
-
-  console.log(tracks);
-
-  const handleDelete = async (id) => {
-    try {
-      await axios.delete("http://localhost:8800/tracks/"+id);
-      window.location.reload()
-    } catch(err) {
-      console.log(err);
-    }
-  };
 
   const { currentUser } = useContext(AuthContext);
   const userId = currentUser?.id;
@@ -54,23 +42,18 @@ const Tracks = () => {
             <h2>id pracownika: {track.pracownicy_id}</h2>
             <h2>Dni kursowania: {track.dni_kursowania}</h2>
 
-            <button className="delete" onClick={() => handleDelete(track.id)}>Usuń</button>
-            <button className="update">
-            <Link
-                to={`/EdytowanieTras/${track.id}`}
-                style={{ color: "inherit", textDecoration: "none" }}
-              >
-                Edytuj
-              </Link>
-            </button>
             <button>
             <Link
                 to={`/Trasa/${track.id}`}
                 style={{ color: "inherit", textDecoration: "none" }}
               >
-                Trasa
+                Wyswietl trase
               </Link>
             </button>
+            
+              
+      {error && "Something went wrong!"}
+            
           </div>
         ))}
         </div>
@@ -78,14 +61,14 @@ const Tracks = () => {
     </div>
   );  
 }else{
-  return (
-    <div className="main">
-      <center>
-      <NormalMenu />
-        </center>
-    </div>
-  );
-}
+    return (
+      <div className="main">
+        <center>
+        <NormalMenu />
+          </center>
+      </div>
+    );
+  }
 };
 
 export default Tracks;

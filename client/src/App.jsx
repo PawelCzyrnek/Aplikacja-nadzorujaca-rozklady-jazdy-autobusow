@@ -16,6 +16,8 @@ import UsuwanieTras from "./components/UsuwanieTras";
 import Profil from "./components/Profil";
 import EdytowanieProfilu from "./components/EdytowanieProfilu";
 import ZmianaHasla from "./components/ZmianaHasla";
+import EdytowaniePojazdow from "./components/EdytowaniePojazdow";
+import Trasa from "./components/Trasa";
 
 function App() {
   return (
@@ -39,6 +41,8 @@ function App() {
           <Route path="/Profil" element={<Profil/>} />
           <Route path="/EdytowanieProfilu" element={<EdytowanieProfilu/>} />
           <Route path="/ZmianaHasla" element={<ZmianaHasla/>} />
+          <Route path="/EdytowaniePojazdow/:id" element={<EdytowaniePojazdow/>} />
+          <Route path="/Trasa/:id" element={<Trasa/>} />
 
         </Routes>
       </BrowserRouter>

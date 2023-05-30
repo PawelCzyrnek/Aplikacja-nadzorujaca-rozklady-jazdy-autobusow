@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import { AuthContext } from '../context/authContext';
-import home from "./../image/BamBus.png";
 import { useEffect } from "react";
 import { useState } from "react";
 import axios from "axios";
@@ -46,6 +45,14 @@ const Vehicles = () => {
             <h2>rejestracja: {pojazd.id_no}</h2>
             <h2>miejsca: {pojazd.sits_no}</h2>
             <button className="delete" onClick={() => handleDelete(pojazd.id)}>Usuń</button>
+            <button className="update">
+            <Link
+                to={`/EdytowaniePojazdow/${pojazd.id}`}
+                style={{ color: "inherit", textDecoration: "none" }}
+              >
+                Edytuj
+              </Link>
+            </button>
           </div>
         ))}
         </div>
