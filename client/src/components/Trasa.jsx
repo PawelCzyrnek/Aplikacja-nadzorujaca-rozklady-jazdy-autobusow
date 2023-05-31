@@ -28,6 +28,20 @@ const Trasa = () => {
     fetchAllTracks();
   }, []);
 
+  //Przystanki
+  const [stops, setStops] = useState([]);
+  useEffect(() => {
+    const fetchAllStops = async () => {
+      try {
+        const res = await axios.get("http://localhost:8800/stops/"+trackId);
+        setStops(res.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchAllStops();
+  }, []);
+
   const { currentUser } = useContext(AuthContext);
   const userId = currentUser.id;
 
@@ -56,6 +70,7 @@ const Trasa = () => {
       <center>    
       <TopMenu />
           <div className="formusun">
+          {tracks.map((track) => (
           <div key={track.id} className="track">
             <h2>Start: {track.start}</h2>
             <h2>Cel: {track.cel}</h2>
@@ -64,15 +79,19 @@ const Trasa = () => {
             <h2>id pojazdu: {track.pojazdy_id}</h2>
             <h2>id pracownika: {track.pracownicy_id}</h2>
             <h2>Dni kursowania: {track.dni_kursowania}</h2>
-
+            {stops.map((przystanek) => (
+            <div className="przystanekTrasy"><div key={przystanek.id} className="stop">
+              <h2>Nazwa przystanku: {przystanek.nazwa}</h2>
+              <h2>Miasto: {przystanek.nazwa_miasta}</h2>
+            </div></div>
+            ))}
             <button onClick={handleClick}>Kup bilet
             </button>
             <button onClick={handleClick}>Kup bilet miesięczny
             </button>
-
-      {error && "Something went wrong!"}
-
+            {error && "Something went wrong!"}
           </div>
+          ))}
         </div>
       </center>
     </div>

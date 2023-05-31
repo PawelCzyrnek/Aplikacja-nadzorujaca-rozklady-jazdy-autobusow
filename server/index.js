@@ -140,7 +140,7 @@ app.delete("/stops/:id", (req, res) => {
 
 app.put("/stops/:id", (req, res) => {
   const stopId = req.params.id;
-  const q = "UPDATE przystanki SET  nazwa=?,  miasto_id= ? WHERE id = ?";
+  const q = "UPDATE przystanki SET nazwa=?,  miasto_id= ? WHERE id = ?";
 
   const values = [
     req.body.nazwa,
@@ -148,6 +148,20 @@ app.put("/stops/:id", (req, res) => {
   ];
   db.query(q, [...values,stopId], (err, data) => {
     if (err) return res.send(err);
+    return res.json(data);
+  });
+});
+
+app.post("/stops", (req, res) => {
+  const q = "INSERT INTO przystanki(`nazwa`, `miasto_id`) VALUES (?)";
+
+  const values = [
+    req.body.nazwa,
+    req.body.miasto_id,
+  ];
+
+  db.query(q, [values], (err, data) => {
+    if (err) return res.json(err);
     return res.json(data);
   });
 });
@@ -250,7 +264,6 @@ app.put("/haslo/:id", (req, res) => {
 });
 
 app.get("/haslo/:id", (req, res) => {
-
   const q = "SELECT password FROM users WHERE id = ?";
   db.query(q, (err, data) => {
     if (err) {
@@ -314,8 +327,31 @@ app.post("/tickets/:id/:userId", (req, res) => {
 
 app.get("/tracks/:id", (req, res) => {
   const q = "SELECT * FROM trasy WHERE id = ?";
-  console.log(req.params)
-  db.query(q, (err, data) => {
+  console.log(req.params.id)
+  db.query(q, [req.params.id], (err, data) => {
+    if (err) {
+      console.log(err);
+      return res.json(err);
+    }
+    return res.json(data);
+  });
+});
+//Przystanki trasy
+app.get("/stops/:idTrasy", (req, res) => {
+  const idTrasy = req.params.idTrasy;
+  const q = "SELECT * FROM przystanki p INNER JOIN miasto m ON m.id = p.miasto_id INNER JOIN przystanki_trasy pt ON pt.przystanki_id = p.id WHERE pt.trasy_id = ?";
+  db.query(q, [idTrasy], (err, data) => {
+    if (err) {
+      console.log(err);
+      return res.json(err);
+    }
+    return res.json(data);
+  });
+});
+
+app.get("/bilety/:idUser", (req, res) => {
+  const q = "SELECT * FROM bilet_zakupiony WHERE user_id = ?";
+  db.query(q, [req.params.idUser], (err, data) => {
     if (err) {
       console.log(err);
       return res.json(err);
