@@ -53,13 +53,13 @@ const ProfilBilety = () => {
         <center>
           <NormalMenu />
           <div className="form">
-            <h1>Profil</h1>
-            <h2>{currentUser?.name} {currentUser?.surename}</h2>
-            <h2>Rola: {currentUser?.rola_id}</h2>
-            <button><Link to="/">Strona główna</Link></button>
-            <button><Link to="/EdytowanieProfilu">Edytuj profil</Link></button>
-            <button><Link to="/ZmianaHasla">Zmień hasło</Link></button>
-            <button><Link to="/ZakupioneBilety">Zakupione bilety</Link></button>
+            <h1>Twoje zakupione bilety</h1>
+            {bilety.map((bilet) => (
+          <div key={bilet.id} className="vehicle">
+            <h2>Bilet na trase nr {bilet.bilet_o_id}</h2>
+          </div>
+        ))}
+            <button><Link to="/Profil">Profil</Link></button>
           </div>
         </center>
       </div>
