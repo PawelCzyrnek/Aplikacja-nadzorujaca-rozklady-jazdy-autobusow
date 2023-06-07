@@ -1,11 +1,13 @@
-import React, { useContext } from "react";
-import { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { AuthContext } from '../context/authContext';
 import NormalMenu from "../menu/Normalmenu";
 import TopMenu from "../menu/Topmenu";
+import L from 'leaflet';
+import "leaflet/dist/leaflet.css";
+import markerIcon from 'leaflet/dist/images/marker-icon.png';
 
 const Trasa = () => {
   const [tracks, setTracks] = useState([]);
@@ -64,6 +66,46 @@ const Trasa = () => {
     }
   };
 
+  useEffect(() => {
+    const planes = [
+      ['Limanowa', 49.7060778, 20.4213056],
+      ['Tymbark', 49.731789, 20.320364],
+      ['Nowy Sącz', 49.6071921, 20.699753],
+      ['Stary Sącz', 49.5656942, 20.6376901],
+      ['Tarnów', 50.006402, 20.9707158],
+      ['Kraków', 50.0661558, 19.9459694]
+    ];
+
+    const start1 = (planes[0][1] + planes[planes.length - 1][1]) / 2;
+    const start2 = (planes[0][2] + planes[planes.length - 1][2]) / 2;
+
+    const map = L.map('map').setView([start1, start2], 9, 5);
+
+    const mapLink = '<a href="http://openstreetmap.org">OpenStreetMap</a>';
+    L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; ' + mapLink + ' Contributors',
+      maxZoom: 16,
+    }).addTo(map);
+
+    delete L.Icon.Default.prototype._getIconUrl;
+    L.Icon.Default.mergeOptions({
+      iconRetinaUrl: markerIcon,
+      iconUrl: markerIcon,
+      shadowUrl: require('leaflet/dist/images/marker-shadow.png').default,
+    });
+
+    for (let i = 0; i < planes.length; i++) {
+      const marker = L.marker([planes[i][1], planes[i][2]])
+        .bindPopup(planes[i][0])
+        .addTo(map);
+    }
+
+    return () => {
+      map.remove();
+    };
+  }, []);
+
+
   if( currentUser?.rola_id === 'admin'){
   return (
     <div className="main">
@@ -85,6 +127,7 @@ const Trasa = () => {
               <h2>Miasto: {przystanek.nazwa_miasta}</h2>
             </div></div>
             ))}
+           
             <button onClick={handleClick}>Kup bilet
             </button>
             <button onClick={handleClick}>Kup bilet miesięczny
@@ -92,6 +135,7 @@ const Trasa = () => {
             {error && "Something went wrong!"}
           </div>
           ))}
+           <div id="map" style={{ width: '800px', height: '600px' }}></div>
         </div>
       </center>
     </div>

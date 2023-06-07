@@ -40,23 +40,24 @@ const Stops = () => {
     <div className="main">
       <center>
       <TopMenu />
-          <div className="formusun">
-        {stops.map((przystanek) => (
-          <div key={przystanek.id} className="stop">
-            <h2>Nazwa przystanku: {przystanek.nazwa}</h2>
-            <h2>Miasto: {przystanek.nazwa_miasta}</h2>
-            <button className="delete" onClick={() => handleDelete(przystanek.id)}>Usuń</button>
-            <button className="update">
-            <Link
-                to={`/EdytowaniePrzystankow/${przystanek.id}`}
-                style={{ color: "inherit", textDecoration: "none" }}
-              >
-                Edytuj
-              </Link>
-            </button>
-          </div>
-        ))}
-        </div>
+      <div className="formusun">
+  {stops.map((przystanek, index) => (
+    <div key={index} className="stop">
+      <h2>Nazwa przystanku: {przystanek.nazwa}</h2>
+      <h2>Miasto: {przystanek.nazwa_miasta}</h2>
+      <button className="delete" onClick={() => handleDelete(przystanek.id)}>Usuń</button>
+      <button className="update">
+        <Link
+          to={`/EdytowaniePrzystankow/${przystanek.id}`}
+          style={{ color: "inherit", textDecoration: "none" }}
+        >
+          Edytuj
+        </Link>
+      </button>
+    </div>
+  ))}
+</div>
+
       </center>
     </div>
   );  

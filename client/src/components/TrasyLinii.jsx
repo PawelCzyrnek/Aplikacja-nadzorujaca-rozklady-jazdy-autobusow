@@ -2,24 +2,38 @@ import React, { useContext } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { AuthContext } from '../context/authContext';
 import TopMenu from "../menu/Topmenu";
 import NormalMenu from "../menu/Normalmenu";
 
 const Tracks = () => {
+    const [stops, setStops] = useState([]);
   const [tracks, setTracks] = useState([]);
-
+  const location = useLocation()
+  const liniaId = location.pathname.split("/")[2]
   useEffect(() => {
     const fetchAllTracks = async () => {
       try {
-        const res = await axios.get("http://localhost:8800/tracks");
+        const res = await axios.get("http://localhost:8800/trasy/"+liniaId);
         setTracks(res.data);
       } catch (err) {
         console.log(err);
       }
     };
     fetchAllTracks();
+  }, []);
+ 
+  useEffect(() => {
+    const fetchAllStops = async () => {
+      try {
+        const res = await axios.get("http://localhost:8800/przystanki/"+liniaId);
+        setStops(res.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchAllStops();
   }, []);
 
   console.log(tracks);
@@ -80,6 +94,16 @@ const Tracks = () => {
             </button>
           </div>
         ))}
+
+{stops.map((przystanek, index) => (
+     <div className="przystanekTrasy"><div key={index} className="stop">
+      <h2>Nazwa przystanku: {przystanek.nazwa}</h2>
+      <h2>Nazwa miasta: {przystanek.nazwa_miasta}</h2>
+
+      
+      {error && "Something went wrong!"}
+    </div></div>
+  ))}
         </div>
       </center>
     </div>

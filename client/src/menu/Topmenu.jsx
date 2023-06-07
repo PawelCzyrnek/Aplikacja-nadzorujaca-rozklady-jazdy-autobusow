@@ -3,6 +3,7 @@ import home from "./../image/BamBus.png";
 import React, { useContext } from "react";
 import { AuthContext } from '../context/authContext';
 import bus from "./../image/bus.png";
+import { Link } from "react-router-dom";
 
 const TopMenu = () => {
   
@@ -83,6 +84,26 @@ const TopMenu = () => {
             <a href='/UsuwanieTras'>Usuwanie Tras</a>
             </p>
             </button>
+            <button>
+            <p className="link">
+            <a href='/DodawanieLinii'>DodawanieLinii</a>
+            </p>
+            </button>
+            <button>
+            <p className="link">
+            <a href='/Linie'>Linie</a>
+            </p>
+            </button>
+            <Link
+                to={`/WyszukiwanieTras`}
+                style={{ color: "inherit", textDecoration: "none" }}
+              >
+            <button>
+            <p className="link">
+           Wyszukiwarka Tras
+            </p>
+            </button>
+            </Link>
         </div>
     </div>
   );

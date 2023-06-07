@@ -19,6 +19,11 @@ import ZmianaHasla from "./components/ZmianaHasla";
 import EdytowaniePojazdow from "./components/EdytowaniePojazdow";
 import Trasa from "./components/Trasa";
 import ZakupioneBilety from "./components/ProfilBilety";
+import WyszukiwarkaTras from "./components/WyszukiwarkaTras";
+import WyswietlaniePrzystankow from "./components/WyswietlaniePrzystankow";
+import DodawanieLinii from "./components/DodawanieLinii";
+import Linie from "./components/Linie";
+import TrasyLinii from "./components/TrasyLinii";
 
 function App() {
   return (
@@ -45,6 +50,12 @@ function App() {
           <Route path="/ZakupioneBilety" element={<ZakupioneBilety/>} />
           <Route path="/EdytowaniePojazdow/:id" element={<EdytowaniePojazdow/>} />
           <Route path="/Trasa/:id" element={<Trasa/>} />
+          <Route path="/WyszukiwanieTras" element={<WyszukiwarkaTras/>} />
+          <Route path="/WyswietlaniePrzystankow/:id" element={<WyswietlaniePrzystankow/>} />
+          <Route path="/DodawanieLinii" element={<DodawanieLinii />} />
+          <Route path="/Linie" element={<Linie />} />
+          <Route path="/TrasyLinii/:id" element={<TrasyLinii/>} />
+
 
         </Routes>
       </BrowserRouter>

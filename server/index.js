@@ -17,7 +17,7 @@ app.use(cookieParser());
 export const db = mysql.createConnection({
   host: "localhost",
   user: "root",
-  password: "haslo",
+  password: "",
   database: "anrja",
 });
 
@@ -148,6 +148,7 @@ app.put("/stops/:id", (req, res) => {
   ];
   db.query(q, [...values,stopId], (err, data) => {
     if (err) return res.send(err);
+    
     return res.json(data);
   });
 });
@@ -184,6 +185,7 @@ app.post("/tracks", (req, res) => {
   });
 });
 
+
 app.get("/tracks", (req, res) => {
   const q = "SELECT * FROM trasy";
   db.query(q, (err, data) => {
@@ -194,7 +196,6 @@ app.get("/tracks", (req, res) => {
     return res.json(data);
   });
 });
-
 app.delete("/tracks/:id", (req, res) => {
   const trackId = req.params.id;
   const q = " DELETE FROM trasy WHERE id = ? ";
@@ -204,6 +205,7 @@ app.delete("/tracks/:id", (req, res) => {
     return res.json("Track has been deleted successfully.");
   });
 });
+
 
 app.put("/tracks/:id", (req, res) => {
   const trackId = req.params.id;
@@ -240,6 +242,11 @@ app.put("/users/:id", (req, res) => {
 
   db.query(q, [...values,userId], (err, data) => {
     if (err) return res.send(err);
+    if (req.body.name.length === 0) return res.status(404).json("Brak nowego hasła!");
+    if (req.body.surename.length === 0) return res.status(404).json("Brak nowego hasła!");
+    if (req.body.login.length === 0) return res.status(404).json("Brak nowego hasła!");
+    if (req.body.rola_id.length === 0) return res.status(404).json("Brak nowego hasła!");
+    if (hash.length === 0) return res.status(404).json("Brak nowego hasła!");
     return res.json(data);
   });
 });
@@ -336,6 +343,7 @@ app.get("/tracks/:id", (req, res) => {
     return res.json(data);
   });
 });
+
 //Przystanki trasy
 app.get("/stops/:idTrasy", (req, res) => {
   const idTrasy = req.params.idTrasy;
@@ -349,6 +357,25 @@ app.get("/stops/:idTrasy", (req, res) => {
   });
 });
 
+app.get("/trasy/search", (req, res) => {
+  const searchText = req.query.text;
+
+  const q = "SELECT * FROM trasy WHERE start LIKE ? OR cel LIKE ?";
+  const searchValue = `%${searchText}%`;
+  console.log(searchText, searchValue)
+  db.query(q, [searchValue, searchValue], (err, data) => {
+    if (err) {
+      console.log(err);
+      return res.sendStatus(500);
+    }
+
+    res.json(data);
+  });
+});
+
+
+
+
 app.get("/bilety/:idUser", (req, res) => {
   const q = "SELECT * FROM bilet_zakupiony WHERE user_id = ?";
   db.query(q, [req.params.idUser], (err, data) => {
@@ -360,6 +387,82 @@ app.get("/bilety/:idUser", (req, res) => {
   });
 });
 
+app.get("/biletm/:idUser", (req, res) => {
+  const q = "SELECT * FROM bilet_zakupiony_m WHERE users_id = ?";
+  db.query(q, [req.params.idUser], (err, data) => {
+    if (err) {
+      console.log(err);
+      return res.json(err);
+    }
+    return res.json(data);
+  });
+});
+
 app.listen(8800, () => {
   console.log("Connected to backend.");
+});
+app.post("/stops/:id", (req, res) => {
+  const q = "INSERT INTO przystanki_trasy(`przystanki_id`, `trasy_id`) VALUES (?)";
+
+  const values = [
+    req.body.id,
+    req.params.id,
+  ];
+
+  db.query(q, [values], (err, data) => {
+    if (err) return res.send(err);
+    return res.json(data);
+  });
+});
+
+
+
+
+
+app.post("/linie", (req, res) => {
+  const q = "INSERT INTO linie (nazwa, nr) VALUES (?)";
+  const values = [
+    req.body.nazwa,
+    req.body.nr,
+    
+  ];
+
+  db.query(q, [values], (err, data) => {
+    if (err) return res.send(err);
+    return res.json(data);
+  });
+});
+app.get("/linie", (req, res) => {
+  const q = "SELECT * FROM linie";
+  db.query(q, (err, data) => {
+    if (err) {
+      console.log(err);
+      return res.json(err);
+    }
+    return res.json(data);
+  });
+});
+
+app.get("/trasy/:id", (req, res) => {
+  const q = "SELECT * FROM trasy t INNER JOIN linie_trasy lt ON t.id=lt.trasa_id WHERE linia_id = ?";
+  
+  db.query(q, [req.params.id], (err, data) => {
+    if (err) {
+      console.log(err);
+      return res.json(err);
+    }
+    return res.json(data);
+  });
+});
+
+app.get("/przystanki/:id", (req, res) => {
+  const q = "SELECT * FROM przystanki s INNER JOIN linie_stops ls ON s.id=ls.stops_id INNER JOIN miasto m ON m.id=miasto_id WHERE linie_id = ?";
+  console.log(req.params.id)
+  db.query(q, [req.params.id], (err, data) => {
+    if (err) {
+      console.log(err);
+      return res.json(err);
+    }
+    return res.json(data);
+  });
 });

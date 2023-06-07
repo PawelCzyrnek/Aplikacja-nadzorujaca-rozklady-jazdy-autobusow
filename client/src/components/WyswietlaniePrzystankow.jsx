@@ -1,3 +1,5 @@
+
+
 import React, { useContext } from "react";
 import home from "./../image/BamBus.png";
 import { useEffect } from "react";
@@ -5,6 +7,8 @@ import { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { AuthContext } from '../context/authContext';
+import TopMenu from "../menu/Topmenu";
+import NormalMenu from "../menu/Normalmenu";
 
 const Tracks = () => {
     const [stops, setStops] = useState([]);
@@ -51,98 +55,50 @@ const Tracks = () => {
       setError(true);
     }
   };
-  
+  if( currentUser?.rola_id === 'admin'){
   return (
     <div className="main">
       <center>
-      <div className='NazwaStrony'>
-      <img className='imgh' src={home} alt="home"/>
-      <div className='napis'>
-      BamBus
-      </div>
-      <div className="nazwaU">
-      {currentUser?.name}
-      </div>
-      </div>
-      <div className='nawigacja'>
-            <button>
-            <p className="link">
-            <a href='/rejestracja'>Rejestracja</a>
-            </p>
-            </button>
-            <button>
-            <p className="link">
-            <a href='/login'>Login</a>
-            </p>
-            </button>
-            <button>
-            <p className="link">
-            <a href='/Logout'>Wylogowywanie</a>
-            </p>
-            </button>
-            <button>
-            <p className="link">
-            <a href='/DodawaniePracownikow'>Dodawanie Pracowników</a>
-            </p>
-            </button>
-            <button>
-            <p className="link">
-            <a href='/DodawaniePojazdow'>Dodawanie Pojazdów</a>
-            </p>
-            </button>
-            <button>
-            <p className="link">
-            <a href='/UsuwaniePracownikow'>Usuwanie pracowników</a>
-            </p>
-            </button>
-            <button>
-            <p className="link">
-            <a href='/DodawaniePrzystankow'>Dodawanie przystanków</a>
-            </p>
-            </button>
-            <button>
-            <p className="link">
-            <a href='/UsuwaniePojazdow'>Usuwanie Pojazdow</a>
-            </p>
-            </button>
-            <button>
-            <p className="link">
-            <a href='/UsuwaniePrzystankow'>Usuwanie Przystankow</a>
-            </p>
-            </button>
-            </div>
-        <div className='nawigacja'>
-            <button>
-            <p className="link">
-            <a href='/EdytowaniePrzystankow'>Edytowanie Przystankow</a>
-            </p>
-            </button>
-            <button>
-            <p className="link">
-            <a href='/DodawanieTras'>Dodawanie Tras</a>
-            </p>
-            </button>
-            <button>
-            <p className="link">
-            <a href='/UsuwanieTras'>Usuwanie Tras</a>
-            </p>
-            </button>
-
-       </div>
+      <TopMenu />
        <div className="formusun">
-       {stops.map((przystanek) => (
-  <div key={przystanek.id} className="stop">
-    <h2>Nazwa przystanku: {przystanek.nazwa}</h2>
-    <h2>Numer id miasta: {przystanek.miasto_id}</h2>
+  {stops.map((przystanek, index) => (
+    <div key={index} className="stop">
+      <h2>Nazwa przystanku: {przystanek.nazwa}</h2>
+      <h2>Nazwa miasta: {przystanek.nazwa_miasta}</h2>
 
-    <button onClick={() => handleClick(przystanek.id)}>Dodaj</button>
-    {error && "Something went wrong!"}
-  </div>
-))}
-        </div>
+      <button onClick={() => handleClick(przystanek.id)}>Dodaj</button>
+      {error && "Something went wrong!"}
+    </div>
+  ))}
+</div>
+
       </center>
     </div>
   );  
-}
+}else{
+    return (
+      <div className="main">
+        <center>
+        <NormalMenu />
+          </center>
+      </div>
+    );
+  }
+  };
 
 export default Tracks;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

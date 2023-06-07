@@ -24,6 +24,20 @@ const ProfilBilety = () => {
       };
       fetchAllBilety();
     }, []);
+
+    const [biletm, setBiletm] = useState([]);
+    useEffect(() => {
+      const fetchAllBiletm = async () => {
+        try {
+          const res = await axios.get("http://localhost:8800/biletm/"+userId);
+          setBiletm(res.data);
+          console.log(res.data);
+        } catch (err) {
+          console.log(err);
+        }
+      };
+      fetchAllBiletm();
+    }, []);
     console.log(bilety);
     if (!currentUser) {
         navigate("/");
@@ -38,8 +52,13 @@ const ProfilBilety = () => {
           <div className="form">
             <h1>Twoje zakupione bilety</h1>
             {bilety.map((bilet) => (
-          <div key={bilet.id} className="vehicle">
+          <div key={bilet.id} className="bilety">
             <h2>Bilet na trase nr {bilet.bilet_o_id}</h2>
+          </div>
+        ))}
+        {biletm.map((biletm) => (
+          <div key={biletm.id} className="bilety">
+            <h2>Bilet miesięczny na trase nr {biletm.bilet_m_id}</h2>
           </div>
         ))}
             <button><Link to="/Profil">Profil</Link></button>
@@ -55,8 +74,13 @@ const ProfilBilety = () => {
           <div className="form">
             <h1>Twoje zakupione bilety</h1>
             {bilety.map((bilet) => (
-          <div key={bilet.id} className="vehicle">
+          <div key={bilet.id} className="bilety">
             <h2>Bilet na trase nr {bilet.bilet_o_id}</h2>
+          </div>
+        ))}
+        {biletm.map((biletm) => (
+          <div key={biletm.id} className="bilety">
+            <h2>Bilet miesięczny na trase nr {biletm.bilet_m_id}</h2>
           </div>
         ))}
             <button><Link to="/Profil">Profil</Link></button>
