@@ -101,11 +101,11 @@ input{
 }
 
 button{
-    width: 300px;
-    min-height: 50px;
+    min-width: 140px;
+    height: 70px;
     border-radius: 10px;
     margin: 5px;
-    background-color: #b103fc;
+    background-color: rgb(130, 184, 192);
     color: white;
     font-size: 20px;
     border: none;
@@ -144,7 +144,7 @@ button{
   width: 300px;;
 }
 button:hover {
-  background-color: #9100cf;
+  background-color: #b103fc;
   transition: background-color 0.3s ease;
 }
 

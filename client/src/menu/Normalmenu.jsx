@@ -3,6 +3,7 @@ import home from "./../image/BamBus.png";
 import bus from "./../image/bus.png";
 import React, { useContext } from "react";
 import { AuthContext } from '../context/authContext';
+import { Link } from "react-router-dom";
 
 const NormalMenu = () => {
   
@@ -20,27 +21,42 @@ const NormalMenu = () => {
         </div>
         </div>
           <div className='nawigacja'>
-              <button>
-              <p className="link">
-              <a href='/rejestracja'>Rejestracja</a>
-              </p>
-              </button>
-              {currentUser?(
+          <Link to={`/rejestracja`}
+              style={{ color: "inherit", textDecoration: "none" }}>
             <button>
             <p className="link">
-            <a onClick={logout}>Wylogowywanie</a>
+              Rejestracja
             </p>
-            </button>) : 
+            </button></Link>
+            {currentUser?(
+            <Link onClick={logout}
+              style={{ color: "inherit", textDecoration: "none" }}>
             <button>
             <p className="link">
-            <a href='/login'>Login</a>
+              Wylogowywanie
             </p>
-            </button>}
-            {currentUser?(<button>
+            </button></Link>) : 
+            <Link to={`/login`}
+                style={{ color: "inherit", textDecoration: "none" }}>
+            <button>
             <p className="link">
-            <a href='/Profil'>Profil</a>
+              Login
             </p>
-            </button>) : null}
+            </button></Link>}
+            {currentUser?(<div><Link to={`/Profil`}
+                style={{ color: "inherit", textDecoration: "none" }}>
+            <button>
+            <p className="link">
+              Profil
+            </p>
+            </button></Link><Link to={`/WyszukiwanieTras`}
+                style={{ color: "inherit", textDecoration: "none" }}>
+            <button>
+            <p className="link">
+               Wyszukiwarka Tras
+            </p>
+            </button>
+            </Link></div>) : null}
               </div>
     </div>
   );

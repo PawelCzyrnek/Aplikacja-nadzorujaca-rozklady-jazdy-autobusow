@@ -21,86 +21,112 @@ const TopMenu = () => {
       </div>
       </div>
       <div className='nawigacja'>
+            <Link to={`/rejestracja`}
+              style={{ color: "inherit", textDecoration: "none" }}>
             <button>
             <p className="link">
-            <a href='/rejestracja'>Rejestracja</a>
+              Rejestracja
             </p>
-            </button>
+            </button></Link>
             {currentUser?(
+            <Link onClick={logout}
+              style={{ color: "inherit", textDecoration: "none" }}>
             <button>
             <p className="link">
-            <a onClick={logout}>Wylogowywanie</a>
+              Wylogowywanie
             </p>
-            </button>) : 
+            </button></Link>) : 
+            <Link to={`/login`}
+                style={{ color: "inherit", textDecoration: "none" }}>
             <button>
             <p className="link">
-            <a href='/login'>Login</a>
+              Login
             </p>
-            </button>}
+            </button></Link>}
+            <Link to={`/Profil`}
+                style={{ color: "inherit", textDecoration: "none" }}>
             <button>
             <p className="link">
-            <a href='/Profil'>Profil</a>
+              Profil
             </p>
-            </button>
+            </button></Link>
+            <Link to={`/DodawaniePracownikow`}
+                style={{ color: "inherit", textDecoration: "none" }}>
             <button>
             <p className="link">
-            <a href='/DodawaniePracownikow'>Dodawanie Pracowników</a>
+              Dodawanie Pracowników
             </p>
-            </button>
+            </button></Link>
+            <Link to={`/DodawaniePojazdow`}
+                style={{ color: "inherit", textDecoration: "none" }}>
             <button>
             <p className="link">
-            <a href='/DodawaniePojazdow'>Dodawanie Pojazdów</a>
+              Dodawanie Pojazdów
             </p>
-            </button>
+            </button></Link>
+            <Link to={`/UsuwaniePracownikow`}
+                style={{ color: "inherit", textDecoration: "none" }}>
             <button>
             <p className="link">
-            <a href='/UsuwaniePracownikow'>Usuwanie pracowników</a>
+              Usuwanie pracowników
             </p>
-            </button>
+            </button></Link>
+            <Link to={`/DodawaniePrzystankow`}
+                style={{ color: "inherit", textDecoration: "none" }}>
             <button>
             <p className="link">
-            <a href='/DodawaniePrzystankow'>Dodawanie przystanków</a>
+              Dodawanie przystanków
             </p>
-            </button>
+            </button></Link>
+            <Link to={`/UsuwaniePojazdow`}
+                style={{ color: "inherit", textDecoration: "none" }}>
             <button>
             <p className="link">
-            <a href='/UsuwaniePojazdow'>Usuwanie Pojazdow</a>
+              Usuwanie Pojazdow
             </p>
-            </button>
+            </button></Link>
         </div>
         <div className='nawigacja'>
+            <Link to={`/UsuwaniePrzystankow`}
+                style={{ color: "inherit", textDecoration: "none" }}>
             <button>
             <p className="link">
-            <a href='/UsuwaniePrzystankow'>Usuwanie Przystankow</a>
+              Usuwanie Przystankow
             </p>
-            </button>
+            </button></Link>
+            <Link to={`/DodawanieTras`}
+                style={{ color: "inherit", textDecoration: "none" }}>
             <button>
             <p className="link">
-            <a href='/DodawanieTras'>Dodawanie Tras</a>
+              Dodawanie Tras
             </p>
-            </button>
+            </button></Link>
+            <Link to={`/UsuwanieTras`}
+                style={{ color: "inherit", textDecoration: "none" }}>
             <button>
             <p className="link">
-            <a href='/UsuwanieTras'>Usuwanie Tras</a>
+              Usuwanie Tras
             </p>
-            </button>
+            </button></Link>
+            <Link to={`/DodawanieLinii`}
+                style={{ color: "inherit", textDecoration: "none" }}>
             <button>
             <p className="link">
-            <a href='/DodawanieLinii'>DodawanieLinii</a>
+              DodawanieLinii
             </p>
-            </button>
+            </button></Link>
+            <Link to={`/Linie`}
+                style={{ color: "inherit", textDecoration: "none" }}>
             <button>
             <p className="link">
-            <a href='/Linie'>Linie</a>
+              Linie
             </p>
-            </button>
-            <Link
-                to={`/WyszukiwanieTras`}
-                style={{ color: "inherit", textDecoration: "none" }}
-              >
+            </button></Link>
+            <Link to={`/WyszukiwanieTras`}
+                style={{ color: "inherit", textDecoration: "none" }}>
             <button>
             <p className="link">
-           Wyszukiwarka Tras
+               Wyszukiwarka Tras
             </p>
             </button>
             </Link>
