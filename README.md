@@ -1,1 +1,1 @@
-# Aplikacja nadzorująca rozkłady jazdy autobusów
+Aplikacja Nadzorująca Rozkłady Jazdy Autobusów
