@@ -17,7 +17,7 @@ app.use(cookieParser());
 export const db = mysql.createConnection({
   host: "localhost",
   user: "root",
-  password: "",
+  password: "haslo",
   database: "anrja",
 });
 
@@ -154,11 +154,13 @@ app.put("/stops/:id", (req, res) => {
 });
 
 app.post("/stops", (req, res) => {
-  const q = "INSERT INTO przystanki(`nazwa`, `miasto_id`) VALUES (?)";
+  const q = "INSERT INTO przystanki(`nazwa`, `miasto_id`, `kordy_x`, `kordy_y`) VALUES (?)";
 
   const values = [
     req.body.nazwa,
     req.body.miasto_id,
+    req.body.kordy_x,
+    req.body.kordy_y,
   ];
 
   db.query(q, [values], (err, data) => {
@@ -360,7 +362,7 @@ app.get("/stops/:idTrasy", (req, res) => {
 app.get("/trasy/search", (req, res) => {
   const searchText = req.query.text;
 
-  const q = "SELECT * FROM trasy WHERE start LIKE ? OR cel LIKE ?";
+  const q = "SELECT DISTINCT t.* FROM trasy t JOIN przystanki_trasy pt ON t.id=pt.trasy_id JOIN przystanki p ON p.id=pt.przystanki_id JOIN miasto m ON m.id=p.miasto_id WHERE t.start LIKE ? OR t.cel LIKE ? OR p.nazwa LIKE ? OR m.nazwa_miasta LIKE ?";
   const searchValue = `%${searchText}%`;
   console.log(searchText, searchValue)
   db.query(q, [searchValue, searchValue], (err, data) => {
@@ -372,9 +374,6 @@ app.get("/trasy/search", (req, res) => {
     res.json(data);
   });
 });
-
-
-
 
 app.get("/bilety/:idUser", (req, res) => {
   const q = "SELECT * FROM bilet_zakupiony WHERE user_id = ?";
@@ -401,23 +400,29 @@ app.get("/biletm/:idUser", (req, res) => {
 app.listen(8800, () => {
   console.log("Connected to backend.");
 });
+
 app.post("/stops/:id", (req, res) => {
-  const q = "INSERT INTO przystanki_trasy(`przystanki_id`, `trasy_id`) VALUES (?)";
-
-  const values = [
-    req.body.id,
-    req.params.id,
-  ];
-
-  db.query(q, [values], (err, data) => {
-    if (err) return res.send(err);
-    return res.json(data);
-  });
+  try {
+    const q = "INSERT INTO przystanki_trasy(`przystanki_id`, `trasy_id`, `czas`) VALUES (?)";
+  
+    const values = [
+      req.body.id,
+      req.params.id,
+      req.body.czas,
+    ];
+  
+    db.query(q, [values], (err, data) => {
+      if (err) {
+        console.error(err);
+        return res.send(err);
+      }
+      return res.json(data);
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Server Error");
+  }
 });
-
-
-
-
 
 app.post("/linie", (req, res) => {
   const q = "INSERT INTO linie (nazwa, nr) VALUES (?)";
@@ -465,4 +470,27 @@ app.get("/przystanki/:id", (req, res) => {
     }
     return res.json(data);
   });
+});
+
+//Dodawanie tras do linii
+app.post("/tracks/:id", (req, res) => {
+  try {
+    const q = "INSERT INTO linie_trasy(`linia_id`, `trasa_id`) VALUES (?)";
+  
+    const values = [
+      req.body.id,
+      req.params.id,
+    ];
+  
+    db.query(q, [values], (err, data) => {
+      if (err) {
+        console.error(err);
+        return res.send(err);
+      }
+      return res.json(data);
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Server Error");
+  }
 });
