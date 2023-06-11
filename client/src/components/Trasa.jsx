@@ -45,7 +45,7 @@ const Trasa = () => {
   }, []);
 
   const { currentUser } = useContext(AuthContext);
-  const userId = currentUser.id;
+  const userId = currentUser?.id;
 
   const [error,setError] = useState(false)
 
@@ -67,19 +67,7 @@ const Trasa = () => {
   };
 
   useEffect(() => {
-    const planes = [
-      ['Limanowa', 49.7060778, 20.4213056],
-      ['Tymbark', 49.731789, 20.320364],
-      ['Nowy Sącz', 49.6071921, 20.699753],
-      ['Stary Sącz', 49.5656942, 20.6376901],
-      ['Tarnów', 50.006402, 20.9707158],
-      ['Kraków', 50.0661558, 19.9459694]
-    ];
-
-    const start1 = (planes[0][1] + planes[planes.length - 1][1]) / 2;
-    const start2 = (planes[0][2] + planes[planes.length - 1][2]) / 2;
-
-    const map = L.map('map').setView([start1, start2], 9, 5);
+    const map = L.map('map').setView([49.7060778, 20.4213056], 9, 5);
 
     const mapLink = '<a href="http://openstreetmap.org">OpenStreetMap</a>';
     L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -94,16 +82,16 @@ const Trasa = () => {
       shadowUrl: require('leaflet/dist/images/marker-shadow.png').default,
     });
 
-    for (let i = 0; i < planes.length; i++) {
-      const marker = L.marker([planes[i][1], planes[i][2]])
-        .bindPopup(planes[i][0])
+    stops.forEach((przystanek) => {
+      const marker = L.marker([przystanek.kordy_x, przystanek.kordy_y])
+        .bindPopup(przystanek.nazwa)
         .addTo(map);
-    }
+    });
 
     return () => {
       map.remove();
     };
-  }, []);
+  }, [stops]);
 
 
   if( currentUser?.rola_id === 'admin'){
@@ -112,20 +100,26 @@ const Trasa = () => {
       <center>    
       <TopMenu />
           <div className="formusun">
+          <h1>Informacje o wybranej trasie</h1>
           {tracks.map((track) => (
           <div key={track.id} className="track">
             <h2>Start: {track.start}</h2>
             <h2>Cel: {track.cel}</h2>
             <h2>Godzina startu: {track.godz_startu}</h2>
             <h2>Godzina końca: {track.godz_konca}</h2>
-            <h2>id pojazdu: {track.pojazdy_id}</h2>
-            <h2>id pracownika: {track.pracownicy_id}</h2>
+            <h2>Pojazd: {track.id_no}</h2>
+            <h2>Kierowca: {track.name+" "+track.surename}</h2>
             <h2>Dni kursowania: {track.dni_kursowania}</h2>
+            <table className="przystanekTrasy">
+            <tr><td>Nazwa przystanku:</td>
+              <td>Miasto:</td>
+              <td>Czas dotarcia:</td></tr></table>
             {stops.map((przystanek) => (
-            <div className="przystanekTrasy"><div key={przystanek.id} className="stop">
-              <h2>Nazwa przystanku: {przystanek.nazwa}</h2>
-              <h2>Miasto: {przystanek.nazwa_miasta}</h2>
-            </div></div>
+            <table className="przystanekTrasy"><div key={przystanek.id} className="stop">
+              <tr><td>{przystanek.nazwa}</td>
+              <td>{przystanek.nazwa_miasta}</td>
+              <td>{przystanek.czas}</td></tr>
+            </div></table>
             ))}
            
             <button onClick={handleClick}>Kup bilet
@@ -136,6 +130,13 @@ const Trasa = () => {
           </div>
           ))}
            <div id="map" style={{ width: '800px', height: '600px' }}></div>
+           <div>
+        <h2>LEGENDA</h2>
+        <p>F – kursuje od poniedziałku do piątku</p>
+        <p>6 – kursuje w sobotę</p>
+        <p>7 – kursuje w niedziele</p>
+        <p>S – kursuje w dniach nauki szkolnej</p>
+      </div>
         </div>
       </center>
     </div>

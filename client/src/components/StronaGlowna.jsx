@@ -6,7 +6,7 @@ import TopMenu from '../menu/Topmenu';
 import NormalMenu from "../menu/Normalmenu";
 
 const Home = () => {
-  const { currentUser, logout } = useContext(AuthContext);
+  const { currentUser } = useContext(AuthContext);
   if (currentUser?.rola_id === 'admin') {
     return (
       <div className="main">

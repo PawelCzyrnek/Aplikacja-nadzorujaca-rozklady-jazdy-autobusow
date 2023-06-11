@@ -1,13 +1,11 @@
-import axios from "axios";
 import React, { useContext } from "react";
 import { AuthContext } from '../context/authContext';
-import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import TopMenu from "../menu/Topmenu";
 import NormalMenu from "../menu/Normalmenu";
 
 const Profil = () => {
-  const { currentUser, logout } = useContext(AuthContext);
+  const { currentUser } = useContext(AuthContext);
   const navigate = useNavigate();
   if (!currentUser) {
     navigate("/");

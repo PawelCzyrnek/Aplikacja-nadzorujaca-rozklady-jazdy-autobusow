@@ -1,6 +1,5 @@
 import axios from "axios";
-import home from "./../image/BamBus.png";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { AuthContext } from '../context/authContext';
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -19,9 +18,50 @@ const Add = () => {
     
   });
   const [error,setError] = useState(false)
+  //lista kierowców
+  const fetchDriverIds = async () => {
+    try {
+      const response = await axios.get("http://localhost:8800/kierowcy");
+      const drivers = response.data;
+      const driverIds = drivers.map((driver) => driver.id);
+      return driverIds;
+    } catch (err) {
+      console.log(err);
+      setError(true);
+    }
+  };
+  const [driverIds, setDriverIds] = useState([]);  
+  useEffect(() => {
+    const getDriverIds = async () => {
+      const ids = await fetchDriverIds();
+      setDriverIds(ids);
+    };
+  
+    getDriverIds();
+  }, []);
+  //lista pojazdów
+  const fetchVehicleIds = async () => {
+    try {
+      const response = await axios.get("http://localhost:8800/tracki");
+      const vehicles = response.data;
+      const vehicleIds = vehicles.map((vehicle) => vehicle.id);
+      return vehicleIds;
+    } catch (err) {
+      console.log(err);
+      setError(true);
+    }
+  };
+  const [vehicleIds, setVehicleIds] = useState([]);
+  useEffect(() => {
+    const getVehicleIds = async () => {
+      const ids = await fetchVehicleIds();
+      setVehicleIds(ids);
+    };
+    getVehicleIds();
+  }, []);
+  
 
   const navigate = useNavigate();
-
   const handleChange = (e) => {
     setUser((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
@@ -70,30 +110,41 @@ const Add = () => {
         onChange={handleChange}
       />
 
-      <input
-        type="number"
-        placeholder="id pojazdu"
-        name="pojazdy_id"
-        onChange={handleChange}
-      />  
+      <select type="text" name="pojazdy_id" onChange={handleChange}>
+        {vehicleIds.map((id) => (
+          <option key={id} value={id}>{id}</option>
+        ))}
+      </select>
 
-      <input
-        type="number"
-        placeholder="id pracownika"
-        name="pracownicy_id"
-        onChange={handleChange}
-      />
-
-      <input
-        type="text"
-        placeholder="dni kursowania"
-        name="dni_kursowania"
-        onChange={handleChange}
-      />
+      <select type="text" name="pracownicy_id" onChange={handleChange}>
+        {driverIds.map((id) => (
+          <option key={id} value={id}>{id}</option>
+        ))}
+      </select>
+      
+      <select type="text" name="dni_kursowania" onChange={handleChange}>
+      <option>F</option>
+      <option>F 6</option>
+      <option>F 6 7</option>
+      <option>6 7</option>
+      <option>6</option>
+      <option>7</option>
+      <option>S</option>
+      <option>S 6</option>
+      <option>S 7</option>
+      <option>S 6 7</option>
+	    </select>
 
       <button onClick={handleClick}>Dodaj</button>
       {error && "Something went wrong!"}
       <button><Link to="/">Strona główna</Link></button>
+      <div>
+        <h2>LEGENDA</h2>
+        <p>F – kursuje od poniedziałku do piątku</p>
+        <p>6 – kursuje w sobotę</p>
+        <p>7 – kursuje w niedziele</p>
+        <p>S – kursuje w dniach nauki szkolnej</p>
+      </div>
     </div>
     </center>
     </div>

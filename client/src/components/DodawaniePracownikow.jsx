@@ -68,12 +68,14 @@ const Add = () => {
         onChange={handleChange}
       />
 
-      <input
-        type="text"
-        placeholder="Rola pracownika"
-        name="rola_id"
-        onChange={handleChange}
-      />  
+      <Link>Rola:</Link>
+      <select type="text" name="rola_id" onChange={handleChange}>
+      <option>user</option>
+      <option>admin</option>
+      <option>kierowca</option>
+      <option>planista</option>
+      <option>pracownik</option>
+	    </select>
 
       <button onClick={handleClick}>Dodaj</button>
       {error && "Something went wrong!"}

@@ -34,13 +34,14 @@ const Stops = () => {
     }
   };
 
-  const { currentUser,logout } = useContext(AuthContext);
+  const { currentUser } = useContext(AuthContext);
   if( currentUser?.rola_id === 'admin'){
   return (
     <div className="main">
       <center>
       <TopMenu />
       <div className="formusun">
+      <h1>Przystanki</h1>
   {stops.map((przystanek, index) => (
     <div key={index} className="stop">
       <h2>Nazwa przystanku: {przystanek.nazwa}</h2>

@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
-import home from './../image/BamBus.png';
 import axios from 'axios';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { AuthContext } from '../context/authContext';
 import TopMenu from "../menu/Topmenu";
 import NormalMenu from "../menu/Normalmenu";
@@ -33,7 +32,7 @@ const Trasa = () => {
   
 
   const { currentUser } = useContext(AuthContext);
-  const userId = currentUser.id;
+  const userId = currentUser?.id;
   const [error, setError] = useState(false);
   const [track, setTrackss] = useState({
     id: '',
@@ -57,6 +56,7 @@ const Trasa = () => {
       <center>
       <TopMenu />
         <div className="formusun">
+        <h1>Wyszukiwarka tras</h1>
           <form onSubmit={handleSearch}>
             <input
               type="text"
@@ -84,6 +84,13 @@ const Trasa = () => {
             <p>Nie znaleziono trasy</p>
           )}
           {error && "Coś poszło nie tak!"}
+          <div>
+        <h2>LEGENDA</h2>
+        <p>F – kursuje od poniedziałku do piątku</p>
+        <p>6 – kursuje w sobotę</p>
+        <p>7 – kursuje w niedziele</p>
+        <p>S – kursuje w dniach nauki szkolnej</p>
+      </div>
         </div>
       </center>
     </div>
@@ -94,7 +101,9 @@ const Trasa = () => {
         <center>
         <NormalMenu />
         <div className="formusun">
+        {currentUser?(<div>
           <form onSubmit={handleSearch}>
+          <h1>Wyszukiwarka tras</h1>
             <input
               type="text"
               placeholder="Search..."
@@ -121,7 +130,14 @@ const Trasa = () => {
             <p>Nie znalezziono trasy</p>
           )}
           {error && "Coś poszło nie tak!"}
-        </div>
+          <div>
+        <h2>LEGENDA</h2>
+        <p>F – kursuje od poniedziałku do piątku</p>
+        <p>6 – kursuje w sobotę</p>
+        <p>7 – kursuje w niedziele</p>
+        <p>S – kursuje w dniach nauki szkolnej</p>
+      </div>
+          </div>) : null}</div>
           </center>
       </div>
     );

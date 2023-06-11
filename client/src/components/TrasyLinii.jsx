@@ -58,14 +58,15 @@ const Tracks = () => {
       <center>    
       <TopMenu />
           <div className="formusun">
+          <h1>Trasy należące do wybranej linii</h1>
         {tracks.map((track) => (
           <div key={track.id} className="track">
             <h2>Start: {track.start}</h2>
             <h2>Cel: {track.cel}</h2>
             <h2>Godzina startu: {track.godz_startu}</h2>
             <h2>Godzina końca: {track.godz_konca}</h2>
-            <h2>id pojazdu: {track.pojazdy_id}</h2>
-            <h2>id pracownika: {track.pracownicy_id}</h2>
+            <h2>Pojazd: {track.id_no}</h2>
+            <h2>Kierowca: {track.name+" "+track.surename}</h2>
             <h2>Dni kursowania: {track.dni_kursowania}</h2>
             <button className="delete" onClick={() => handleDelete(track.id)}>Usuń</button>
             <button className="update">

@@ -24,6 +24,7 @@ import WyswietlaniePrzystankow from "./components/WyswietlaniePrzystankow";
 import DodawanieLinii from "./components/DodawanieLinii";
 import Linie from "./components/Linie";
 import TrasyLinii from "./components/TrasyLinii";
+import WyswietlanieTras from "./components/WyswietlanieTras";
 
 function App() {
   return (
@@ -55,7 +56,7 @@ function App() {
           <Route path="/DodawanieLinii" element={<DodawanieLinii />} />
           <Route path="/Linie" element={<Linie />} />
           <Route path="/TrasyLinii/:id" element={<TrasyLinii/>} />
-
+          <Route path="/WyswietlanieTras/:id" element={<WyswietlanieTras/>} />
 
         </Routes>
       </BrowserRouter>

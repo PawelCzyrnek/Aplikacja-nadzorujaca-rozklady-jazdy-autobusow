@@ -33,7 +33,7 @@ const Add = () => {
     }
   };
 
-  const { currentUser,logout } = useContext(AuthContext);
+  const { currentUser } = useContext(AuthContext);
   if( currentUser?.rola_id === 'admin'){
   return (
     <div className="main">

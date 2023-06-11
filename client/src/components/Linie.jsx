@@ -7,7 +7,7 @@ import TopMenu from "../menu/Topmenu";
 import NormalMenu from "../menu/Normalmenu";
 
 const Linie = () => {
-  const [vehicles, setVehicles] = useState([]);
+  const [linia, setVehicles] = useState([]);
 
   useEffect(() => {
     const fetchAllVehicles = async () => {
@@ -21,7 +21,7 @@ const Linie = () => {
     fetchAllVehicles();
   }, []);
 
-  console.log(vehicles);
+  console.log(linia);
 
   const handleDelete = async (id) => {
     try {
@@ -32,26 +32,28 @@ const Linie = () => {
     }
   };
 
-  const { currentUser,logout } = useContext(AuthContext);
+  const { currentUser } = useContext(AuthContext);
   if( currentUser?.rola_id === 'admin'){
   return (
     <div className="main">
       <center>
       <TopMenu />
           <div className="formusun">
-        {vehicles.map((pojazd) => (
-          <div key={pojazd.id} className="vehicle">
-            <h2>nazwa: {pojazd.nazwa}</h2>
-            <h2>nr: {pojazd.nr}</h2>
-            
-            <button className="update">
-            <Link
-                to={`/TrasyLinii/${pojazd.id}`}
-                style={{ color: "inherit", textDecoration: "none" }}
-              >
+          <h1>Linie</h1>
+        {linia.map((linia) => (
+          <div key={linia.id} className="vehicle">
+            <h2>nazwa: {linia.nazwa}</h2>
+            <h2>nr: {linia.nr}</h2>
+            <Link to={`/TrasyLinii/${linia.id}`}
+                style={{ color: "inherit", textDecoration: "none" }}>
+            <button>
                 Informacje o linii
-              </Link>
-            </button>
+            </button></Link>
+            <Link to={`/WyswietlanieTras/${linia.id}`}
+                style={{ color: "inherit", textDecoration: "none" }}>
+            <button>
+                Dodaj trase
+            </button></Link>
           </div>
         ))}
         </div>

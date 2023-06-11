@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useContext } from "react";
 import { AuthContext } from '../context/authContext';
 import { useState } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import TopMenu from "../menu/Topmenu";
 import NormalMenu from "../menu/Normalmenu";
 
@@ -15,7 +15,6 @@ const ZmianaHasla = () => {
   const [err,setError] = useState(false)
 
   const navigate = useNavigate()
-  const location = useLocation()
 
   const { currentUser } = useContext(AuthContext);
   const userId = currentUser?.id;

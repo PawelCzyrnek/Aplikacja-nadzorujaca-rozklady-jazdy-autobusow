@@ -68,7 +68,7 @@ const TopMenu = () => {
                 style={{ color: "inherit", textDecoration: "none" }}>
             <button>
             <p className="link">
-              Usuwanie pracowników
+              Użytkownicy
             </p>
             </button></Link>
             <Link to={`/DodawaniePrzystankow`}
@@ -82,7 +82,7 @@ const TopMenu = () => {
                 style={{ color: "inherit", textDecoration: "none" }}>
             <button>
             <p className="link">
-              Usuwanie Pojazdow
+              Pojazdy
             </p>
             </button></Link>
         </div>
@@ -91,7 +91,7 @@ const TopMenu = () => {
                 style={{ color: "inherit", textDecoration: "none" }}>
             <button>
             <p className="link">
-              Usuwanie Przystankow
+              Przystanki
             </p>
             </button></Link>
             <Link to={`/DodawanieTras`}
@@ -105,7 +105,7 @@ const TopMenu = () => {
                 style={{ color: "inherit", textDecoration: "none" }}>
             <button>
             <p className="link">
-              Usuwanie Tras
+              Trasy
             </p>
             </button></Link>
             <Link to={`/DodawanieLinii`}

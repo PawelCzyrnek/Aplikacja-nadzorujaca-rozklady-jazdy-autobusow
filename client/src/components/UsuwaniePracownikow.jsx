@@ -34,13 +34,14 @@ const Users = () => {
     }
   };
 
-  const { currentUser,logout } = useContext(AuthContext);
+  const { currentUser } = useContext(AuthContext);
   if( currentUser?.rola_id === 'admin'){
   return (
     <div className="main">
       <center>
       <TopMenu />
           <div className="formusun">
+          <h1>Użytkownicy</h1>
         {users.map((user) => (
           <div key={user.id} className="user">
             <h2>Imię: {user.name}</h2>

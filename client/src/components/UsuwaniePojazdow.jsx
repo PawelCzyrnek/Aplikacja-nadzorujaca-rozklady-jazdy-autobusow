@@ -32,13 +32,14 @@ const Vehicles = () => {
     }
   };
 
-  const { currentUser,logout } = useContext(AuthContext);
+  const { currentUser } = useContext(AuthContext);
   if( currentUser?.rola_id === 'admin'){
   return (
     <div className="main">
       <center>
       <TopMenu />
           <div className="formusun">
+          <h1>Pojazdy</h1>
         {vehicles.map((pojazd) => (
           <div key={pojazd.id} className="vehicle">
             <h2>rejestracja: {pojazd.id_no}</h2>
