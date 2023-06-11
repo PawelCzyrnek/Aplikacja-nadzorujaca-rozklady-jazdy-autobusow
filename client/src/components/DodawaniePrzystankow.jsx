@@ -1,6 +1,5 @@
 import axios from "axios";
-import home from "./../image/BamBus.png";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { AuthContext } from '../context/authContext';
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -33,7 +32,22 @@ const Add = () => {
     }
   };
 
-  const { currentUser,logout } = useContext(AuthContext);
+    //lista przystanków
+    const [drivers, setDrivers] = useState([]);
+    useEffect(() => {
+      const fetchDrivers = async () => {
+        try {
+          const response = await axios.get("http://localhost:8800/miasta");
+          setDrivers(response.data);
+        } catch (err) {
+          console.log(err);
+          setError(true);
+        }
+      };
+      fetchDrivers();
+    }, []);
+
+  const { currentUser } = useContext(AuthContext);
   if( currentUser?.rola_id === 'admin'){
   return (
     <div className="main">
@@ -47,12 +61,11 @@ const Add = () => {
         name="nazwa"
         onChange={handleChange}
       />
-      <input
-        type="number"
-        placeholder="Numer id miasta"
-        name="miasto_id"
-        onChange={handleChange}
-      />
+      <select type="text" name="pracownicy_id" onChange={handleChange}>
+        {drivers.map((miasto) => (
+          <option key={miasto.id} value={miasto.id}>{miasto.id}</option>
+        ))}
+      </select>
       <input
         type="number"
         placeholder="kordy_x"
@@ -68,6 +81,12 @@ const Add = () => {
       <button onClick={handleClick}>Dodaj</button>
       {error && "Something went wrong!"}
       <button><Link to="/">Strona główna</Link></button>
+      <h2>LEGENDA MIAST</h2>
+          {drivers.map((miasto) => (
+          <div key={miasto.id}>
+            <p>{miasto.id} - {miasto.nazwa_miasta}</p>
+          </div>
+        ))}
     </div>
     </center>
     </div>

@@ -361,7 +361,7 @@ app.get("/stops/:idTrasy", (req, res) => {
 app.get("/trasy/search", (req, res) => {
   const searchText = req.query.text;
 
-  const q = "SELECT DISTINCT t.* FROM trasy t LEFT JOIN przystanki_trasy pt ON t.id=pt.trasy_id LEFT JOIN przystanki p ON p.id=pt.przystanki_id LEFT JOIN miasto m ON m.id=p.miasto_id WHERE t.start LIKE ? OR t.cel LIKE ? OR p.nazwa LIKE ? OR m.nazwa_miasta LIKE ?";
+  const q = "SELECT DISTINCT t.*, po.id_no, u.name, u.surename FROM trasy t LEFT JOIN przystanki_trasy pt ON t.id=pt.trasy_id LEFT JOIN przystanki p ON p.id=pt.przystanki_id LEFT JOIN miasto m ON m.id=p.miasto_id LEFT JOIN linie_trasy lt ON t.id=lt.trasa_id LEFT JOIN pojazdy po ON po.id=t.pojazdy_id LEFT JOIN users u ON u.id=t.pracownicy_id WHERE t.start LIKE ? OR t.cel LIKE ? OR p.nazwa LIKE ? OR m.nazwa_miasta LIKE ?;";
   const searchValue = `%${searchText}%`;
   console.log(searchText, searchValue)
   db.query(q, [searchValue, searchValue,searchValue,searchValue], (err, data) => {
@@ -448,7 +448,7 @@ app.get("/linie", (req, res) => {
 });
 
 app.get("/trasy/:id", (req, res) => {
-  const q = "SELECT DISTINCT t.*, p.id_no, u.name, u.surename FROM trasy t INNER JOIN linie_trasy lt ON t.id=lt.trasa_id LEFT JOIN pojazdy p ON p.id=t.pojazdy_id LEFT JOIN users u ON u.id=t.pracownicy_id WHERE linia_id = ?";
+  const q = "SELECT DISTINCT t.*, po.id_no, u.name, u.surename FROM trasy t LEFT JOIN linie_trasy lt ON t.id=lt.trasa_id LEFT JOIN pojazdy po ON po.id=t.pojazdy_id LEFT JOIN users u ON u.id=t.pracownicy_id WHERE linia_id = ?";
   
   db.query(q, [req.params.id], (err, data) => {
     if (err) {
@@ -506,6 +506,16 @@ app.get("/kierowcy", (req, res) => {
 });
 app.get("/tracki", (req, res) => {
   const q = "SELECT * FROM pojazdy";
+  db.query(q, (err, data) => {
+    if (err) {
+      console.log(err);
+      return res.json(err);
+    }
+    return res.json(data);
+  });
+});
+app.get("/miasta", (req, res) => {
+  const q = "SELECT * FROM miasto";
   db.query(q, (err, data) => {
     if (err) {
       console.log(err);

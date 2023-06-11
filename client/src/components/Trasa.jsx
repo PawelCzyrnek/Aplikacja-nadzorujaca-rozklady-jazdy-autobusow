@@ -146,6 +146,45 @@ const Trasa = () => {
       <div className="main">
         <center>
         <NormalMenu />
+        <div className="formusun">
+          <h1>Informacje o wybranej trasie</h1>
+          {tracks.map((track) => (
+          <div key={track.id} className="track">
+            <h2>Start: {track.start}</h2>
+            <h2>Cel: {track.cel}</h2>
+            <h2>Godzina startu: {track.godz_startu}</h2>
+            <h2>Godzina końca: {track.godz_konca}</h2>
+            <h2>Pojazd: {track.id_no}</h2>
+            <h2>Kierowca: {track.name+" "+track.surename}</h2>
+            <h2>Dni kursowania: {track.dni_kursowania}</h2>
+            <table className="przystanekTrasy">
+            <tr><td>Nazwa przystanku:</td>
+              <td>Miasto:</td>
+              <td>Czas dotarcia:</td></tr></table>
+            {stops.map((przystanek) => (
+            <table className="przystanekTrasy"><div key={przystanek.id} className="stop">
+              <tr><td>{przystanek.nazwa}</td>
+              <td>{przystanek.nazwa_miasta}</td>
+              <td>{przystanek.czas}</td></tr>
+            </div></table>
+            ))}
+           
+            <button onClick={handleClick}>Kup bilet
+            </button>
+            <button onClick={handleClick}>Kup bilet miesięczny
+            </button>
+            {error && "Something went wrong!"}
+          </div>
+          ))}
+           <div id="map" style={{ width: '800px', height: '600px' }}></div>
+           <div>
+        <h2>LEGENDA</h2>
+        <p>F – kursuje od poniedziałku do piątku</p>
+        <p>6 – kursuje w sobotę</p>
+        <p>7 – kursuje w niedziele</p>
+        <p>S – kursuje w dniach nauki szkolnej</p>
+      </div>
+        </div>
           </center>
       </div>
     );

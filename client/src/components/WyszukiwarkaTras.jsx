@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { AuthContext } from '../context/authContext';
 import TopMenu from "../menu/Topmenu";
 import NormalMenu from "../menu/Normalmenu";
@@ -73,11 +73,17 @@ const Trasa = () => {
                 <h2>Cel: {track.cel}</h2>
                 <h2>Godzina startu: {track.godz_startu}</h2>
                 <h2>Godzina końca: {track.godz_konca}</h2>
-                <h2>id pojazdu: {track.pojazdy_id}</h2>
-                <h2>id pracownika: {track.pracownicy_id}</h2>
+                <h2>Pojazd: {track.id_no}</h2>
+                 <h2>Kierowca: {track.name+" "+track.surename}</h2>
                 <h2>Dni kursowania: {track.dni_kursowania}</h2>
-                <button onClick={handleClick}>Kup bilet</button>
-                <button onClick={handleClick}>Kup bilet miesięczny</button>
+                <button>
+            <Link
+                to={`/Trasa/${track.id}`}
+                style={{ color: "inherit", textDecoration: "none" }}
+              >
+                Trasa
+              </Link>
+            </button>
               </div>
             ))
           ) : (
@@ -119,11 +125,17 @@ const Trasa = () => {
                 <h2>Cel: {track.cel}</h2>
                 <h2>Godzina startu: {track.godz_startu}</h2>
                 <h2>Godzina końca: {track.godz_konca}</h2>
-                <h2>id pojazdu: {track.pojazdy_id}</h2>
-                <h2>id pracownika: {track.pracownicy_id}</h2>
+                <h2>Pojazd: {track.id_no}</h2>
+                <h2>Kierowca: {track.name+" "+track.surename}</h2>
                 <h2>Dni kursowania: {track.dni_kursowania}</h2>
-                <button onClick={handleClick}>Kup bilet</button>
-                <button onClick={handleClick}>Kup bilet miesięczny</button>
+                <button>
+            <Link
+                to={`/Trasa/${track.id}`}
+                style={{ color: "inherit", textDecoration: "none" }}
+              >
+                Trasa
+              </Link>
+            </button>
               </div>
             ))
           ) : (

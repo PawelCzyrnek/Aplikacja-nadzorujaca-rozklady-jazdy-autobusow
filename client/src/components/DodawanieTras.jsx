@@ -19,45 +19,33 @@ const Add = () => {
   });
   const [error,setError] = useState(false)
   //lista kierowców
-  const fetchDriverIds = async () => {
-    try {
-      const response = await axios.get("http://localhost:8800/kierowcy");
-      const drivers = response.data;
-      const driverIds = drivers.map((driver) => driver.id);
-      return driverIds;
-    } catch (err) {
-      console.log(err);
-      setError(true);
-    }
-  };
-  const [driverIds, setDriverIds] = useState([]);  
+  const [drivers, setDrivers] = useState([]);
   useEffect(() => {
-    const getDriverIds = async () => {
-      const ids = await fetchDriverIds();
-      setDriverIds(ids);
+    const fetchDrivers = async () => {
+      try {
+        const response = await axios.get("http://localhost:8800/kierowcy");
+        setDrivers(response.data);
+      } catch (err) {
+        console.log(err);
+        setError(true);
+      }
     };
-  
-    getDriverIds();
+    fetchDrivers();
   }, []);
+  
   //lista pojazdów
-  const fetchVehicleIds = async () => {
-    try {
-      const response = await axios.get("http://localhost:8800/tracki");
-      const vehicles = response.data;
-      const vehicleIds = vehicles.map((vehicle) => vehicle.id);
-      return vehicleIds;
-    } catch (err) {
-      console.log(err);
-      setError(true);
-    }
-  };
-  const [vehicleIds, setVehicleIds] = useState([]);
+  const [vehicleIds, setVehicles] = useState([]);
   useEffect(() => {
-    const getVehicleIds = async () => {
-      const ids = await fetchVehicleIds();
-      setVehicleIds(ids);
+    const fetchVehicleIds = async () => {
+      try {
+        const response = await axios.get("http://localhost:8800/tracki");
+        setVehicles(response.data);
+      } catch (err) {
+        console.log(err);
+        setError(true);
+      }
     };
-    getVehicleIds();
+    fetchVehicleIds();
   }, []);
   
 
@@ -85,43 +73,55 @@ const Add = () => {
       <TopMenu />
     <div className="form">
       <h1>Dodawanie tras</h1>
+      <table className="tabelawaska"><tr><td><Link>Początek trasy:</Link></td><td>
       <input
         type="text"
         placeholder="start"
         name="start"
         onChange={handleChange}
       />
+      </td>
+      <td><Link>Koniec trasy:</Link></td><td>
       <input
         type="text"
         placeholder="cel"
         name="cel"
         onChange={handleChange}
       />
+      </td></tr><tr>
+      <td><Link>Czas rozpoczęcia:</Link></td><td>
       <input
         type="time"
         placeholder="godzina startu"
         name="godz_startu"
         onChange={handleChange}
       />
+      </td>
+      <td><Link>Czas zakończenia:</Link></td><td>
       <input
         type="time"
         placeholder="godzina końca"
         name="godz_konca"
         onChange={handleChange}
       />
-
+      </td></tr><tr>
+      <td><Link>Pojazd:</Link></td><td>
       <select type="text" name="pojazdy_id" onChange={handleChange}>
-        {vehicleIds.map((id) => (
-          <option key={id} value={id}>{id}</option>
+        {vehicleIds.map((pojazd) => (
+          <option key={pojazd.id} value={pojazd.id}>{pojazd.id}</option>
         ))}
       </select>
-
+      </td>
+      <td><Link>Kierowca:</Link></td><td>
       <select type="text" name="pracownicy_id" onChange={handleChange}>
-        {driverIds.map((id) => (
-          <option key={id} value={id}>{id}</option>
+        {drivers.map((kierowca) => (
+          <option key={kierowca.id} value={kierowca.id}>{kierowca.id}</option>
         ))}
       </select>
-      
+      </td>
+      </tr></table>
+      <div>
+      <Link>Dni kurowania:</Link>
       <select type="text" name="dni_kursowania" onChange={handleChange}>
       <option>F</option>
       <option>F 6</option>
@@ -133,7 +133,7 @@ const Add = () => {
       <option>S 6</option>
       <option>S 7</option>
       <option>S 6 7</option>
-	    </select>
+	    </select></div>
 
       <button onClick={handleClick}>Dodaj</button>
       {error && "Something went wrong!"}
@@ -144,6 +144,20 @@ const Add = () => {
         <p>6 – kursuje w sobotę</p>
         <p>7 – kursuje w niedziele</p>
         <p>S – kursuje w dniach nauki szkolnej</p>
+      </div>
+      <div>
+        <h2>LEGENDA PRACOWNIKÓW</h2>
+          {drivers.map((kierowca) => (
+          <div key={kierowca.id}>
+            <p>{kierowca.id} - {kierowca.name+" "+kierowca.surename}</p>
+          </div>
+        ))}
+        <h2>LEGENDA POJAZDÓW</h2>
+          {vehicleIds.map((pojazd) => (
+          <div key={pojazd.id}>
+            <p>{pojazd.id} - {pojazd.id_no}</p>
+          </div>
+        ))}
       </div>
     </div>
     </center>

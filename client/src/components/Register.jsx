@@ -66,7 +66,7 @@ const Add = () => {
         name="password"
         onChange={handleChange}
       />
-      <button onClick={handleClick}>Dodaj</button>
+      <button onClick={handleClick}>Zarejestruj</button>
       {error && "Something went wrong!"}
       <button><Link to="/">Strona główna</Link></button>
     </div>
@@ -105,7 +105,7 @@ const Add = () => {
         name="password"
         onChange={handleChange}
       />
-      <button onClick={handleClick}>Dodaj</button>
+      <button onClick={handleClick}>Zarejestruj</button>
       {error && "Something went wrong!"}
       <button><Link to="/">Strona główna</Link></button>
     </div>

@@ -157,3 +157,7 @@ button:hover, button:not(:hover) {
 .czas {
   width: 150px;
 }
+.tabelawaska {
+  width: 1000px;
+  text-align: center;
+}
