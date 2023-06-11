@@ -48,17 +48,17 @@ const Linie = () => {
       <button className="delete" onClick={() => handleDelete(przystanek.id)}>Usuń</button>
       <button className="update">
         <Link
-          to={`/EdytowaniePrzystankow/${przystanek.id}`}
+          to={`/TrasyLinii/${przystanek.id}`}
           style={{ color: "inherit", textDecoration: "none" }}
         >
-          Edytuj
+          Info o linii
         </Link>
       </button>
-      <Link to={`/EdytowanieLinii`}
+      <Link to={`/EdytowanieLinii/${przystanek.id}`}
                 style={{ color: "inherit", textDecoration: "none" }}>
             <button>
             <p className="link">
-              EdytowanieLinii
+              Edytuj
             </p>
             </button></Link>
     </div>

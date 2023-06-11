@@ -27,7 +27,7 @@ import TrasyLinii from "./components/TrasyLinii";
 import WyswietlanieTras from "./components/WyswietlanieTras";
 import EdytowanieLinii from "./components/EdytowanieLinii";
 import DodawanieMiast from "./components/DodawanieMiast";
-import EdytowanieMiast from "./components/EdytowanieMiast";
+import EdytowanieMiasta from "./components/EdytowanieMiast";
 import UsuwanieMiast from "./components/UsuwanieMiast";
 
 function App() {
@@ -61,10 +61,10 @@ function App() {
           <Route path="/Linie" element={<Linie />} />
           <Route path="/TrasyLinii/:id" element={<TrasyLinii/>} />
           <Route path="/WyswietlanieTras/:id" element={<WyswietlanieTras/>} />
-          <Route path="/linie/:id" element={<EdytowanieLinii />} />
+          <Route path="/EdytowanieLinii/:id" element={<EdytowanieLinii />} />
           <Route path="/DodawanieMiast" element={<DodawanieMiast />} />
-          <Route path="/UsuwanieMiast/:id" element={<UsuwanieMiast/>} />
-          <Route path="/EdytowanieMiast/:id" element={<EdytowanieMiast/>} />
+          <Route path="/UsuwanieMiast" element={<UsuwanieMiast/>} />
+          <Route path="/EdytowanieMiasta/:id" element={<EdytowanieMiasta/>} />
 
         </Routes>
       </BrowserRouter>

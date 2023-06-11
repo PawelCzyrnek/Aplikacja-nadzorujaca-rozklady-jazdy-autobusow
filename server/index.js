@@ -526,3 +526,76 @@ app.get("/miasta", (req, res) => {
     return res.json(data);
   });
 });
+
+app.post("/miasto", (req, res) => {
+  const q = "INSERT INTO miasto(`nazwa_miasta`) VALUES (?)";
+
+  const miasto = [
+    req.body.nazwa_miasta,
+    
+  ];
+
+  db.query(q, [miasto], (err, data) => {
+    if (err) return res.send(err);
+    return res.json(data);
+  });
+});
+
+app.put("/miasto/:id", (req, res) => {
+  const cityId = req.params.id;
+  const q = "UPDATE miasto SET nazwa_miasta= ? WHERE id = ?";
+
+  const values = [
+    req.body.nazwa_miasta,
+  
+  ];
+  db.query(q, [...miasto,cityId], (err, data) => {
+    if (err) return res.send(err);
+    return res.json(data);
+  });
+});
+
+app.get("/miasto", (req, res) => {
+  const q = "SELECT * FROM miasto";
+  db.query(q, (err, data) => {
+    if (err) {
+      console.log(err);
+      return res.json(err);
+    }
+    return res.json(data);
+  });
+});
+app.delete("/miasto/:id", (req, res) => {
+  const userId = req.params.id;
+  const q = " DELETE FROM miasto WHERE id = ? ";
+
+  db.query(q, [userId], (err, data) => {
+    if (err) return res.send(err);
+    return res.json(data);
+  });
+});
+
+app.delete("/linie/:id", (req, res) => {
+  const userId = req.params.id;
+  const q = " DELETE FROM linie WHERE id = ? ";
+
+  db.query(q, [userId], (err, data) => {
+    if (err) return res.send(err);
+    return res.json(data);
+  });
+});
+
+app.put("/linie/:id", (req, res) => {
+  const stopId = req.params.id;
+  const q = "UPDATE linie SET nazwa=?,  nr= ? WHERE id = ?";
+
+  const values = [
+    req.body.nazwa,
+    req.body.nr,
+  ];
+  db.query(q, [...values,stopId], (err, data) => {
+    if (err) return res.send(err);
+    
+    return res.json(data);
+  });
+});

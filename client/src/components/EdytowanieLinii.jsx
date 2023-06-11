@@ -38,7 +38,7 @@ const Update = () => {
   const handleClick = async (e) => {
     e.preventDefault();
     try {
-      await axios.put("http://localhost:8800/linie" + linieId, linie);
+      await axios.put("http://localhost:8800/linie/" + linieId, linie);
       navigate("/");
     } catch (err) {
       console.log(err);
@@ -52,8 +52,6 @@ const Update = () => {
         <TopMenu />
         <div className="form">
           <h1>Edytowanie tras</h1>
-          <input type="text" placeholder="nazwa" name="nazwa" value={linie.nazwa} onChange={handleChange} />
-          <input type="text" placeholder="nr" name="nr" value={linie.nr} onChange={handleChange} />
           <input
             type="text"
             placeholder="nazwa"
@@ -68,7 +66,6 @@ const Update = () => {
             value={linie.nr}
             onChange={handleChange}
           />
-          
 
           <button onClick={handleClick}>Edytuj</button>
           {error && <p>Something went wrong!</p>}

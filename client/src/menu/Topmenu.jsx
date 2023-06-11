@@ -126,7 +126,7 @@ const TopMenu = () => {
                 style={{ color: "inherit", textDecoration: "none" }}>
             <button>
             <p className="link">
-              Usuwanie Miast
+              Miasta
             </p>
             </button></Link>
             <Link to={`/DodawanieMiast`}
