@@ -61,7 +61,7 @@ const Add = () => {
         name="nazwa"
         onChange={handleChange}
       />
-      <select type="text" name="pracownicy_id" onChange={handleChange}>
+      <select type="number" name="miasto_id" onChange={handleChange}>
         {drivers.map((miasto) => (
           <option key={miasto.id} value={miasto.id}>{miasto.id}</option>
         ))}

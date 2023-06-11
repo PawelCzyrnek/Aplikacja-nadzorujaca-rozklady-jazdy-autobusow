@@ -8,26 +8,26 @@ import { Link } from "react-router-dom";
 import TopMenu from "../menu/Topmenu";
 import NormalMenu from "../menu/Normalmenu";
 
-const Linie = () => {
-  const [linie, setLinie] = useState([]);
+const Miasto = () => {
+  const [miasto, setmiasto] = useState([]);
 
   useEffect(() => {
-    const fetchAllLinie = async () => {
+    const fetchAllMiasto = async () => {
       try {
-        const res = await axios.get("http://localhost:8800/linie");
-        setLinie(res.data);
+        const res = await axios.get("http://localhost:8800/miasto");
+        setmiasto(res.data);
       } catch (err) {
         console.log(err);
       }
     };
-    fetchAllLinie();
+    fetchAllMiasto();
   }, []);
 
-  console.log(linie);
+  console.log(miasto);
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete("http://localhost:8800/linie/"+id);
+      await axios.delete("http://localhost:8800/miasto/"+id);
       window.location.reload()
     } catch(err) {
       console.log(err);
@@ -41,29 +41,23 @@ const Linie = () => {
       <center>
       <TopMenu />
       <div className="formusun">
-  {linie.map((przystanek, index) => (
+  {miasto.map((przystanek, index) => (
     <div key={index} className="stop">
-      <h2>nazwa : {przystanek.nazwa}</h2>
-      <h2>nr: {przystanek.nr}</h2>
+      <h2>Nazwa_miasta: {przystanek.nazwa_miasta}</h2>
+     
       <button className="delete" onClick={() => handleDelete(przystanek.id)}>Usuń</button>
       <button className="update">
         <Link
-          to={`/EdytowaniePrzystankow/${przystanek.id}`}
+          to={`/EdytowanieMiasta/${przystanek.id}`}
           style={{ color: "inherit", textDecoration: "none" }}
         >
           Edytuj
         </Link>
       </button>
-      <Link to={`/EdytowanieLinii`}
-                style={{ color: "inherit", textDecoration: "none" }}>
-            <button>
-            <p className="link">
-              EdytowanieLinii
-            </p>
-            </button></Link>
     </div>
   ))}
 </div>
+
       </center>
     </div>
   );  
@@ -78,4 +72,4 @@ const Linie = () => {
 }
 };
 
-export default Linie;
+export default Miasto;

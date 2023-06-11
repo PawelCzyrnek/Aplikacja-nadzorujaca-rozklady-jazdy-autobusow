@@ -106,14 +106,14 @@ const Add = () => {
       />
       </td></tr><tr>
       <td><Link>Pojazd:</Link></td><td>
-      <select type="text" name="pojazdy_id" onChange={handleChange}>
+      <select type="number" name="pojazdy_id" onChange={handleChange}>
         {vehicleIds.map((pojazd) => (
           <option key={pojazd.id} value={pojazd.id}>{pojazd.id}</option>
         ))}
       </select>
       </td>
       <td><Link>Kierowca:</Link></td><td>
-      <select type="text" name="pracownicy_id" onChange={handleChange}>
+      <select type="number" name="pracownicy_id" onChange={handleChange}>
         {drivers.map((kierowca) => (
           <option key={kierowca.id} value={kierowca.id}>{kierowca.id}</option>
         ))}

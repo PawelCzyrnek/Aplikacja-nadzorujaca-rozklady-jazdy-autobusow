@@ -49,7 +49,7 @@ app.get("/vehicles", (req, res) => {
 
 //INNER JOIN
 app.get("/stops", (req, res) => {
-  const q = "SELECT * FROM przystanki p INNER JOIN miasto m ON m.id = p.miasto_id";
+  const q = "SELECT * FROM przystanki p LEFT JOIN miasto m ON m.id = p.miasto_id";
   db.query(q, (err, data) => {
     if (err) {
       console.log(err);
@@ -140,11 +140,13 @@ app.delete("/stops/:id", (req, res) => {
 
 app.put("/stops/:id", (req, res) => {
   const stopId = req.params.id;
-  const q = "UPDATE przystanki SET nazwa=?,  miasto_id= ? WHERE id = ?";
+  const q = "UPDATE przystanki SET nazwa=?,  miasto_id= ?, kordy_x= ?, kordy_y= ? WHERE id = ?";
 
   const values = [
     req.body.nazwa,
     req.body.miasto_id,
+    req.body.kordy_x,
+    req.body.kordy_y,
   ];
   db.query(q, [...values,stopId], (err, data) => {
     if (err) return res.send(err);

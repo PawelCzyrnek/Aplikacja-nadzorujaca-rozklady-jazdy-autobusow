@@ -122,6 +122,20 @@ const TopMenu = () => {
               Linie
             </p>
             </button></Link>
+            <Link to={`/UsuwanieMiast`}
+                style={{ color: "inherit", textDecoration: "none" }}>
+            <button>
+            <p className="link">
+              Usuwanie Miast
+            </p>
+            </button></Link>
+            <Link to={`/DodawanieMiast`}
+                style={{ color: "inherit", textDecoration: "none" }}>
+            <button>
+            <p className="link">
+              Dodawanie Miast
+            </p>
+            </button></Link>
             <Link to={`/WyszukiwanieTras`}
                 style={{ color: "inherit", textDecoration: "none" }}>
             <button>

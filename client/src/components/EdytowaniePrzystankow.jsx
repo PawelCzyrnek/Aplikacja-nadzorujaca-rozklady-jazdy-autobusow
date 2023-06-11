@@ -10,6 +10,9 @@ const Stop = () => {
   const [stop, setStop] = useState({
     nazwa: "",
     miasto_id: "",
+    kordy_x: "",
+    kordy_y: "",
+
   });
   const [error,setError] = useState(false)
 
@@ -53,6 +56,18 @@ const Stop = () => {
         type="number"
         placeholder="id_miasta"
         name="miasto_id"
+        onChange={handleChange}
+      />
+      <input
+        type="number"
+        placeholder="kordy_x"
+        name="kordy_x"
+        onChange={handleChange}
+      />
+      <input
+        type="number"
+        placeholder="kordy_y"
+        name="kordy_y"
         onChange={handleChange}
       />
       
