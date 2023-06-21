@@ -26,8 +26,19 @@ app.get("/", (req, res) => {
 });
 
 app.get("/users", (req, res) => {
-  const q = "SELECT * FROM users";
+  const q = "SELECT users.*, role.nazwa FROM users LEFT JOIN role ON users.rola_id = role.id";
   db.query(q, (err, data) => {
+    if (err) {
+      console.log(err);
+      return res.json(err);
+    }
+    return res.json(data);
+  });
+});
+
+app.get("/rola_profil/:id", (req, res) => {
+  const q = "SELECT * FROM role WHERE id = ?";
+  db.query(q, [req.params.id],(err, data) => {
     if (err) {
       console.log(err);
       return res.json(err);
@@ -49,7 +60,7 @@ app.get("/vehicles", (req, res) => {
 
 //INNER JOIN
 app.get("/stops", (req, res) => {
-  const q = "SELECT * FROM przystanki p LEFT JOIN miasto m ON m.id = p.miasto_id";
+  const q = "SELECT p.*,m.nazwa_miasta FROM przystanki p LEFT JOIN miasto m ON m.id = p.miasto_id";
   db.query(q, (err, data) => {
     if (err) {
       console.log(err);
@@ -60,13 +71,16 @@ app.get("/stops", (req, res) => {
 });
 
 app.post("/users", (req, res) => {
-  const q = "INSERT INTO users(`name`, `surename`, `login`, `password`) VALUES (?)";
+  const salt = bcrypt.genSaltSync(10);
+  const hash = bcrypt.hashSync(req.body.password, salt);
+  const q = "INSERT INTO users(`name`, `surename`, `login`, `password`, `rola_id`) VALUES (?)";
 
   const values = [
     req.body.name,
     req.body.surename,
     req.body.login,
-    req.body.password,
+    hash,
+    2,
   ];
 
   db.query(q, [values], (err, data) => {
@@ -323,14 +337,40 @@ app.put("/vehicles/:id", (req, res) => {
 });
 //Bilety
 app.post("/tickets/:id/:userId", (req, res) => {
-  const q = "INSERT INTO bilet_zakupiony (`bilet_o_id`, `user_id`) VALUES (?)";
+  const q = "INSERT INTO bilet_zakupiony (`bilet_o_id`, `user_id` ,`data`) VALUES (?)";
+  const currentDate = new Date();
   const values = [
     req.params.id,
     req.params.userId,
+    currentDate,
   ];
-
   db.query(q, [values], (err, data) => {
     if (err) return res.send(err);
+    return res.json(data);
+  });
+});
+
+app.post("/ticketsm/:id/:userId", (req, res) => {
+  const q = "INSERT INTO bilet_zakupiony_m (`bilet_m_id`, `users_id` ,`data_m`) VALUES (?)";
+  const currentDate = new Date();
+  const values = [
+    req.params.id,
+    req.params.userId,
+    currentDate,
+  ];
+  db.query(q, [values], (err, data) => {
+    if (err) return res.send(err);
+    return res.json(data);
+  });
+});
+
+app.get("/bilet_m/:id", (req, res) => {
+  const q = "SELECT * FROM bilet_okresowy WHERE trasa_id = ?";
+  db.query(q, [req.params.id],(err, data) => {
+    if (err) {
+      console.log(err);
+      return res.json(err);
+    }
     return res.json(data);
   });
 });
@@ -497,7 +537,7 @@ app.post("/tracks/:id", (req, res) => {
 });
 
 app.get("/kierowcy", (req, res) => {
-  const q = "SELECT * FROM users WHERE rola_id='kierowca'";
+  const q = "SELECT * FROM users WHERE rola_id='3'";
   db.query(q, (err, data) => {
     if (err) {
       console.log(err);
@@ -549,7 +589,7 @@ app.put("/miasto/:id", (req, res) => {
     req.body.nazwa_miasta,
   
   ];
-  db.query(q, [...miasto,cityId], (err, data) => {
+  db.query(q, [...values,cityId], (err, data) => {
     if (err) return res.send(err);
     return res.json(data);
   });

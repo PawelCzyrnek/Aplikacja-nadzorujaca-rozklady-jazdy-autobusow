@@ -1,5 +1,4 @@
 import axios from "axios";
-import home from "./../image/BamBus.png";
 import React, { useContext } from "react";
 import { AuthContext } from '../context/authContext';
 import { useState } from "react";
@@ -42,7 +41,7 @@ const EdytowanieProfilu = () => {
     }
   };
 
-  if( currentUser?.rola_id === 'admin'){
+  if (currentUser?.rola_id === 1) {
   return (
     <div className="main">
       <center>

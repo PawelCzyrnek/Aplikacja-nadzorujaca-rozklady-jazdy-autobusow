@@ -1,7 +1,6 @@
 import axios from "axios";
-import React, { useContext, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { AuthContext } from '../context/authContext';
-import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import TopMenu from "../menu/Topmenu";
 import NormalMenu from "../menu/Normalmenu";
@@ -65,8 +64,8 @@ const Add = () => {
     }
   };
 
-  const { currentUser,logout } = useContext(AuthContext);
-  if( currentUser?.rola_id === 'admin'){
+  const { currentUser } = useContext(AuthContext);
+  if (currentUser?.rola_id === 1) {
   return (
     <div className="main">
       <center>

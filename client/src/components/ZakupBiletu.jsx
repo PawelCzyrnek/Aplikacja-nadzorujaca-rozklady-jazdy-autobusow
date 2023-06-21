@@ -26,7 +26,7 @@ const Tracks = () => {
 
   const [error,setError] = useState(false)
 
-  if( currentUser?.rola_id === 'admin'){
+  if (currentUser?.rola_id === 1) {
   return (
     <div className="main">
       <center>    

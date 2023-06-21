@@ -1,5 +1,4 @@
 import axios from "axios";
-import home from "./../image/BamBus.png";
 import React, { useContext } from "react";
 import { AuthContext } from '../context/authContext';
 import { useState } from "react";
@@ -34,8 +33,8 @@ const Add = () => {
     }
   };
 
-  const { currentUser,logout } = useContext(AuthContext);
-  if( currentUser?.rola_id === 'admin'){
+  const { currentUser } = useContext(AuthContext);
+  if (currentUser?.rola_id === 1) {
   return (
     <div className="main">
       <center>
@@ -70,16 +69,22 @@ const Add = () => {
 
       <Link>Rola:</Link>
       <select type="text" name="rola_id" onChange={handleChange}>
-      <option>user</option>
-      <option>admin</option>
-      <option>kierowca</option>
-      <option>planista</option>
-      <option>pracownik</option>
+      <option>1</option>
+      <option>2</option>
+      <option>3</option>
+      <option>4</option>
+      <option>5</option>
 	    </select>
 
       <button onClick={handleClick}>Dodaj</button>
       {error && "Something went wrong!"}
       <button><Link to="/">Strona główna</Link></button>
+      <h2>LEGENDA RÓL</h2>
+            <p>1 - admin</p>
+            <p>2 - user</p>
+            <p>3 - kierowca</p>
+            <p>4 - analityk</p>
+            <p>5 - planista</p>
     </div>
     </center>
     </div>

@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import { AuthContext } from '../context/authContext';
-import home from "./../image/BamBus.png";
 import { useEffect } from "react";
 import { useState } from "react";
 import axios from "axios";
@@ -33,9 +32,10 @@ const Users = () => {
       console.log(err);
     }
   };
+  console.log(users)
 
   const { currentUser } = useContext(AuthContext);
-  if( currentUser?.rola_id === 'admin'){
+  if (currentUser?.rola_id === 1) {
   return (
     <div className="main">
       <center>
@@ -46,7 +46,7 @@ const Users = () => {
           <div key={user.id} className="user">
             <h2>Imię: {user.name}</h2>
             <h2>Nazwisko: {user.surename}</h2>
-            <h2>Rola: {user.rola_id}</h2>
+            <h2>Rola: {user.nazwa}</h2>
             <button className="delete" onClick={() => handleDelete(user.id)}>Usuń</button>
             <button className="update">
             <Link

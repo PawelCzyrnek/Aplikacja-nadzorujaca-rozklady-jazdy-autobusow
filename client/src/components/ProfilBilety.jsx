@@ -44,7 +44,7 @@ const ProfilBilety = () => {
         return null;
       }
 
-  if (currentUser?.rola_id === 'admin') {
+      if (currentUser?.rola_id === 1) {
     return (
       <div className="main">
         <center>

@@ -57,13 +57,6 @@ const TopMenu = () => {
               Dodawanie Pracowników
             </p>
             </button></Link>
-            <Link to={`/DodawaniePojazdow`}
-                style={{ color: "inherit", textDecoration: "none" }}>
-            <button>
-            <p className="link">
-              Dodawanie Pojazdów
-            </p>
-            </button></Link>
             <Link to={`/UsuwaniePracownikow`}
                 style={{ color: "inherit", textDecoration: "none" }}>
             <button>
@@ -71,11 +64,11 @@ const TopMenu = () => {
               Użytkownicy
             </p>
             </button></Link>
-            <Link to={`/DodawaniePrzystankow`}
+            <Link to={`/DodawaniePojazdow`}
                 style={{ color: "inherit", textDecoration: "none" }}>
             <button>
             <p className="link">
-              Dodawanie przystanków
+              Dodawanie Pojazdów
             </p>
             </button></Link>
             <Link to={`/UsuwaniePojazdow`}
@@ -83,6 +76,13 @@ const TopMenu = () => {
             <button>
             <p className="link">
               Pojazdy
+            </p>
+            </button></Link>
+            <Link to={`/DodawaniePrzystankow`}
+                style={{ color: "inherit", textDecoration: "none" }}>
+            <button>
+            <p className="link">
+              Dodawanie przystanków
             </p>
             </button></Link>
         </div>
@@ -112,7 +112,7 @@ const TopMenu = () => {
                 style={{ color: "inherit", textDecoration: "none" }}>
             <button>
             <p className="link">
-              DodawanieLinii
+              Dodawanie Linii
             </p>
             </button></Link>
             <Link to={`/Linie`}
@@ -122,18 +122,18 @@ const TopMenu = () => {
               Linie
             </p>
             </button></Link>
-            <Link to={`/UsuwanieMiast`}
-                style={{ color: "inherit", textDecoration: "none" }}>
-            <button>
-            <p className="link">
-              Miasta
-            </p>
-            </button></Link>
             <Link to={`/DodawanieMiast`}
                 style={{ color: "inherit", textDecoration: "none" }}>
             <button>
             <p className="link">
               Dodawanie Miast
+            </p>
+            </button></Link>
+            <Link to={`/UsuwanieMiast`}
+                style={{ color: "inherit", textDecoration: "none" }}>
+            <button>
+            <p className="link">
+              Miasta
             </p>
             </button></Link>
             <Link to={`/WyszukiwanieTras`}

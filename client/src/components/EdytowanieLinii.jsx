@@ -1,8 +1,9 @@
 import axios from "axios";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import TopMenu from "../menu/Topmenu";
 import NormalMenu from "../menu/Normalmenu";
+import { AuthContext } from '../context/authContext';
 
 const Update = () => {
   const [linie, setLinie] = useState({
@@ -46,6 +47,8 @@ const Update = () => {
     }
   };
 
+  const { currentUser } = useContext(AuthContext);
+  if (currentUser?.rola_id === 1) {
   return (
     <div className="main">
       <center>
@@ -76,6 +79,15 @@ const Update = () => {
       </center>
     </div>
   );
+}else{
+  return (
+    <div className="main">
+      <center>
+      <NormalMenu />
+        </center>
+    </div>
+  );
+}
 };
 
 export default Update;

@@ -15,14 +15,13 @@ const Trasa = () => {
   const navigate = useNavigate()
   const location = useLocation()
   const trackId = location.pathname.split("/")[2]
-  console.log(trackId)
+  //console.log(trackId)
 
   useEffect(() => {
     const fetchAllTracks = async () => {
       try {
         const res = await axios.get("http://localhost:8800/tracks/"+trackId);
         setTracks(res.data);
-        console.log(res.data)
       } catch (err) {
         console.log(err);
       }
@@ -48,23 +47,6 @@ const Trasa = () => {
   const userId = currentUser?.id;
 
   const [error,setError] = useState(false)
-
-  const [track, setTrackss] = useState({
-    id: "",
-    user_id: "",
-  });
-
-  const handleClick = async (e) => {
-    e.preventDefault();
-    try {
-      console.log(e)
-      await axios.post("http://localhost:8800/tickets/"+trackId+'/'+userId);
-      navigate("/");
-    } catch (err) {
-      console.log(err);
-      setError(true)
-    }
-  };
 
   useEffect(() => {
     const map = L.map('map').setView([49.7060778, 20.4213056], 9, 5);
@@ -93,8 +75,43 @@ const Trasa = () => {
     };
   }, [stops]);
 
+  const [bilet_m, setbilet_m] = useState([]);
+  useEffect(() => {
+    const fetchAllbilet_m = async () => {
+      try {
+        const res = await axios.get("http://localhost:8800/bilet_m/"+trackId);
+        setbilet_m(res.data[0].id);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchAllbilet_m();
+  }, []);
+  console.log(bilet_m)
 
-  if( currentUser?.rola_id === 'admin'){
+  const handleClick = async (v,e) => {
+    if (v === 1) {
+    e.preventDefault();
+    try {
+      //console.log(e)
+      await axios.post("http://localhost:8800/tickets/"+trackId+'/'+userId);
+      navigate("/");
+    } catch (err) {
+      console.log(err);
+      setError(true)
+    }} else if (v === 2) {
+      e.preventDefault();
+      try {
+        //console.log(e)
+        await axios.post("http://localhost:8800/ticketsm/"+bilet_m+'/'+userId);
+        navigate("/");
+      } catch (err) {
+        console.log(err);
+        setError(true)
+      }}
+  };
+
+  if (currentUser?.rola_id === 1) {
   return (
     <div className="main">
       <center>    
@@ -115,17 +132,15 @@ const Trasa = () => {
               <td>Miasto:</td>
               <td>Czas dotarcia:</td></tr></table>
             {stops.map((przystanek) => (
-            <table className="przystanekTrasy"><div key={przystanek.id} className="stop">
+            <div key={przystanek.id} className="stop"><table className="przystanekTrasy">
               <tr><td>{przystanek.nazwa}</td>
               <td>{przystanek.nazwa_miasta}</td>
               <td>{przystanek.czas}</td></tr>
-            </div></table>
+            </table></div>
             ))}
            
-            <button onClick={handleClick}>Kup bilet
-            </button>
-            <button onClick={handleClick}>Kup bilet miesięczny
-            </button>
+           <button onClick={(e) => handleClick(1, e)}>Kup bilet</button>
+           <button onClick={(e) => handleClick(2, e)}>Kup bilet miesięczny</button>
             {error && "Something went wrong!"}
           </div>
           ))}
@@ -162,17 +177,15 @@ const Trasa = () => {
               <td>Miasto:</td>
               <td>Czas dotarcia:</td></tr></table>
             {stops.map((przystanek) => (
-            <table className="przystanekTrasy"><div key={przystanek.id} className="stop">
+            <div key={przystanek.id} className="stop"><table className="przystanekTrasy">
               <tr><td>{przystanek.nazwa}</td>
               <td>{przystanek.nazwa_miasta}</td>
               <td>{przystanek.czas}</td></tr>
-            </div></table>
+            </table></div>
             ))}
            
-            <button onClick={handleClick}>Kup bilet
-            </button>
-            <button onClick={handleClick}>Kup bilet miesięczny
-            </button>
+           <button onClick={(e) => handleClick(1, e)}>Kup bilet</button>
+           <button onClick={(e) => handleClick(2, e)}>Kup bilet miesięczny</button>
             {error && "Something went wrong!"}
           </div>
           ))}
@@ -185,7 +198,7 @@ const Trasa = () => {
         <p>S – kursuje w dniach nauki szkolnej</p>
       </div>
         </div>
-          </center>
+      </center>
       </div>
     );
   }

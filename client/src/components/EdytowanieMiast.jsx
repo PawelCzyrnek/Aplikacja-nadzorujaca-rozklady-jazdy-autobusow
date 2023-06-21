@@ -1,6 +1,6 @@
 import axios from "axios";
-import home from "./../image/BamBus.png";
-import React from "react";
+import React, { useContext } from "react";
+import { AuthContext } from '../context/authContext';
 import { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import TopMenu from "../menu/Topmenu";
@@ -35,6 +35,8 @@ const Update = () => {
     }
   };
 
+  const { currentUser } = useContext(AuthContext);
+  if (currentUser?.rola_id === 1) {
   return (
     <div className="main">
       <center>
@@ -47,7 +49,6 @@ const Update = () => {
             name="nazwa_miasta"
             onChange={handleCityChange}
           />
-         
           <button onClick={handleUpdateCity}>Edytuj miasto</button>
           {errorCity && "Coś poszło nie tak przy edytowaniu miasta!"}
           <button>
@@ -57,6 +58,15 @@ const Update = () => {
       </center>
     </div>
   );
+}else{
+  return (
+    <div className="main">
+      <center>
+      <NormalMenu />
+        </center>
+    </div>
+  );
+}
 };
 
 export default Update;

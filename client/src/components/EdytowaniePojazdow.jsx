@@ -35,8 +35,8 @@ const Vehicle = () => {
     }
   };
 
-  const { currentUser,logout } = useContext(AuthContext);
-  if( currentUser?.rola_id === 'admin'){
+  const { currentUser } = useContext(AuthContext);
+  if (currentUser?.rola_id === 1) {
   return (
     <div className="main">
       <center>    
